@@ -1,4 +1,4 @@
-package com.havrylenko.library.model;
+package com.havrylenko.library.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

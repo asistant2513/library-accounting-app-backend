@@ -1,9 +1,6 @@
-package com.havrylenko.library.model;
+package com.havrylenko.library.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,5 +22,14 @@ public class Address {
     private String street;
     private String building;
     private String apartment;
+    private int zipCode;
 
+    @OneToOne(mappedBy = "address")
+    private PersonDetails personDetails;
+
+    @Override
+    public String toString() {
+        //TODO: implement toString for address line
+        return "String.format()";
+    }
 }

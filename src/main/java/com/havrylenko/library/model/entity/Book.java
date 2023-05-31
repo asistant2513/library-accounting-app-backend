@@ -1,4 +1,4 @@
-package com.havrylenko.library.model;
+package com.havrylenko.library.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.Year;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Data
@@ -22,17 +24,29 @@ public class Book {
     private Year publishingYear;
     private int pages;
     private String description;
-    private boolean isPresent;
     private LocalDateTime dateRegistered;
+    private boolean isInArchive;
 
-    //TODO: add relations to Publisher, Reviews, Reader
     @ManyToOne
-    @JoinColumn(name="id", nullable = false)
+    @JoinColumn(name="genreId", nullable = false)
     private Genre genre;
 
     @ManyToOne
-    @JoinColumn(name="id", nullable = false)
+    @JoinColumn(name="authorId", nullable = false)
     private Author author;
 
+    @ManyToOne
+    @JoinColumn(name="publisherId", nullable = false)
+    private Publisher publisher;
 
+    @OneToMany(mappedBy = "book")
+    private Set<Review> reviews;
+
+    @ManyToOne
+    @JoinColumn(name="readerId")
+    private Reader reader;
+
+    public boolean isTaken() {
+        return Objects.isNull(this.reader);
+    }
 }
