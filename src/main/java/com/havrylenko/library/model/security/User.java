@@ -1,6 +1,5 @@
 package com.havrylenko.library.model.security;
 
-import com.havrylenko.library.model.config.LibraryConfiguration;
 import com.havrylenko.library.model.entity.PersonDetails;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
@@ -22,7 +21,9 @@ public abstract class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Getter
     protected String userId;
+    @Setter
     protected String username;
+    @Setter
     protected String password;
     @Getter
     protected LocalDateTime accountCreated;
@@ -41,9 +42,10 @@ public abstract class User implements UserDetails {
     @JoinColumn(name = "personDetailsId", referencedColumnName = "id")
     private PersonDetails personDetails;
 
-    @OneToOne
-    @JoinColumn(name = "configuration_id", referencedColumnName = "id")
-    private LibraryConfiguration configuration;
+    public User() {
+        this.accountCreated = LocalDateTime.now();
+        this.lastPasswordChangedDate = LocalDateTime.now();
+    }
 
     public User(String username, String password) {
         this.username = username;
@@ -75,7 +77,7 @@ public abstract class User implements UserDetails {
     @Override
     public boolean isAccountNonExpired() {
         Period period = Period.between(this.lastLoginTime.toLocalDate(), LocalDate.now());
-        return period.getDays() < configuration.getAccountExpirationPeriod();
+        return period.getDays() < 365;
     }
 
     @Override
@@ -86,7 +88,7 @@ public abstract class User implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         Period period = Period.between(this.lastPasswordChangedDate.toLocalDate(), LocalDate.now());
-        return period.getDays() < configuration.getPasswordExpirationPeriod();
+        return period.getDays() < 90;
     }
 
     @Override

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class LibraryConfiguration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private short id;
+    private int id;
     private long accountExpirationPeriod;
     private long passwordExpirationPeriod;
     private long daysToReturnBook;

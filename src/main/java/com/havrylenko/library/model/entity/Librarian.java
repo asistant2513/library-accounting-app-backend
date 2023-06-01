@@ -13,6 +13,8 @@ public class Librarian extends User {
     @OneToMany(mappedBy = "issuedBy")
     private Set<ReaderCard> cardsIssued;
 
+    public Librarian() { }
+
     public Librarian(String username, String password) {
         super(username, password);
     }
