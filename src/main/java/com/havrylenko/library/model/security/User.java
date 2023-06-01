@@ -14,7 +14,9 @@ import java.time.Period;
 import java.util.Collection;
 import java.util.Set;
 
-@MappedSuperclass
+@Entity
+@Table(name = "library_users")
+@Inheritance(strategy = InheritanceType.JOINED)
 @EqualsAndHashCode
 public abstract class User implements UserDetails {
     @Id
