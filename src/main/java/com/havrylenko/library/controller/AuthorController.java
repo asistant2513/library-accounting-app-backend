@@ -1,5 +1,6 @@
 package com.havrylenko.library.controller;
 
+import com.havrylenko.library.model.dto.AuthorDTO;
 import com.havrylenko.library.model.entity.Author;
 import com.havrylenko.library.service.AuthorService;
 import org.springframework.http.HttpStatus;
@@ -20,24 +21,42 @@ public class AuthorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Author>> getAllAuthors() {
-        return ResponseEntity.ok(service.getAll());
+    public ResponseEntity<List<AuthorDTO>> getAllAuthors() {
+        return ResponseEntity.ok(service.getAll().stream().map(AuthorDTO::new).toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Author> getAuthorByID(@PathVariable final String id) {
+    public ResponseEntity<AuthorDTO> getAuthorByID(@PathVariable final String id) {
         Optional<Author> optionalAuthor = service.getOneById(id);
-        return optionalAuthor.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        if (optionalAuthor.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(new AuthorDTO(optionalAuthor.get()));
     }
 
     @PostMapping
-    public ResponseEntity<Author> addAuthor(@RequestBody final Author author) {
-        return new ResponseEntity<>(service.save(author), HttpStatus.CREATED);
+    public ResponseEntity<AuthorDTO> addAuthor(@RequestBody final AuthorDTO dto) {
+        Author author = new Author();
+        author.setName(dto.getName());
+        author.setSurname(dto.getSurname());
+        author.setCountry(dto.getCountry());
+
+        return new ResponseEntity<>(new AuthorDTO(service.save(author)), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Author> modifyAuthor(@RequestBody final Author author) {
-        return new ResponseEntity<>(service.save(author), HttpStatus.CREATED);
+    public ResponseEntity<AuthorDTO> modifyAuthor(@PathVariable final String id,
+                                               @RequestBody final AuthorDTO dto) {
+        Optional<Author> optionalAuthor = service.getOneById(id);
+        if(optionalAuthor.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Author author = optionalAuthor.get();
+        author.setName(dto.getName());
+        author.setSurname(dto.getSurname());
+        author.setCountry(dto.getCountry());
+
+        return ResponseEntity.ok(new AuthorDTO(service.save(author)));
     }
 
     @DeleteMapping("/{id}")
