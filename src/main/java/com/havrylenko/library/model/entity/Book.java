@@ -45,8 +45,4 @@ public class Book {
     @ManyToOne
     @JoinColumn(name="readerId")
     private Reader reader;
-
-    public boolean isTaken() {
-        return Objects.isNull(this.reader);
-    }
 }

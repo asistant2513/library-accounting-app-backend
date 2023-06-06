@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.Collection;
-import java.util.Set;
+import java.util.Collections;
 
 @Entity
 @Table(name = "library_users")
@@ -24,6 +24,7 @@ public abstract class User implements UserDetails {
     @Getter
     protected String userId;
     @Setter
+    @Column(unique = true)
     protected String username;
     @Setter
     protected String password;
@@ -35,8 +36,8 @@ public abstract class User implements UserDetails {
     protected LocalDateTime lastPasswordChangedDate;
     @Setter
     protected boolean isLocked;
-    @ManyToMany(fetch = FetchType.EAGER)
-    protected Set<Role> userRoles;
+    @Setter
+    protected Role userRole;
 
     @Getter
     @Setter
@@ -53,6 +54,7 @@ public abstract class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.accountCreated = LocalDateTime.now();
+        this.lastLoginTime = LocalDateTime.now();
         this.lastPasswordChangedDate = LocalDateTime.now();
     }
 
@@ -63,7 +65,7 @@ public abstract class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.userRoles;
+        return Collections.singletonList(userRole);
     }
 
     @Override

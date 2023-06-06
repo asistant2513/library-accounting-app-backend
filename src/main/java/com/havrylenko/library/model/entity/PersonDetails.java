@@ -1,5 +1,6 @@
 package com.havrylenko.library.model.entity;
 
+import com.havrylenko.library.model.enums.Gender;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +21,8 @@ public class PersonDetails {
     private String name;
     private String surname;
     private String paternity;
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     private LocalDate dateOfBirth;
     private String mobilePhone;
 
