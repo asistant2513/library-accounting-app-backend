@@ -1,7 +1,5 @@
 package com.havrylenko.library.config.json.filter;
 
-import com.havrylenko.library.model.dto.AddressDTO;
-
 public class SerializationFilter {
 
     @Override

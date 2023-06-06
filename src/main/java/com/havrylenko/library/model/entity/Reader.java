@@ -19,6 +19,8 @@ public class Reader extends User {
     @OneToMany(mappedBy = "reader")
     private Set<Book> books;
 
+    public Reader() { }
+
     public Reader(String username, String password) {
         super(username, password);
     }
