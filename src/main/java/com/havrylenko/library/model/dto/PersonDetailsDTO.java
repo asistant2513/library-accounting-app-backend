@@ -1,5 +1,6 @@
 package com.havrylenko.library.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.havrylenko.library.config.json.filter.NullableFilter;
 import com.havrylenko.library.config.json.filter.SerializationFilter;
@@ -40,6 +41,7 @@ public class PersonDetailsDTO implements NullableFilter {
     }
 
     @Override
+    @JsonIgnore
     public boolean isEmpty() {
         return isNull(name) && isNull(surname) & isNull(paternity)
                 && isNull(gender) && isNull(dateOfBirth)

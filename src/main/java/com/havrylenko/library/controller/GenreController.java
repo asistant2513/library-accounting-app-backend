@@ -1,5 +1,6 @@
 package com.havrylenko.library.controller;
 
+import com.havrylenko.library.model.dto.GenreDTO;
 import com.havrylenko.library.model.entity.Genre;
 import com.havrylenko.library.service.GenreService;
 import org.springframework.http.HttpStatus;
@@ -20,24 +21,36 @@ public class GenreController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Genre>> getAllGenres() {
-        return ResponseEntity.ok(service.getAll());
+    public ResponseEntity<List<GenreDTO>> getAllGenres() {
+        return ResponseEntity.ok(service.getAll().stream().map(GenreDTO::new).toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Genre> getGenreByID(@PathVariable final Long id) {
+    public ResponseEntity<GenreDTO> getGenreByID(@PathVariable final Long id) {
         Optional<Genre> optionalGenre = service.getOneById(id);
-        return optionalGenre.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        if (optionalGenre.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(new GenreDTO(optionalGenre.get()));
     }
 
     @PostMapping
-    public ResponseEntity<Genre> addGenre(@RequestBody final Genre genre) {
-        return new ResponseEntity<>(service.save(genre), HttpStatus.CREATED);
+    public ResponseEntity<GenreDTO> addGenre(@RequestBody final GenreDTO dto) {
+        Genre genre = new Genre();
+        genre.setName(dto.getName());
+        return new ResponseEntity<>(new GenreDTO(service.save(genre)), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Genre> modifyGenre(@RequestBody final Genre genre) {
-        return new ResponseEntity<>(service.save(genre), HttpStatus.CREATED);
+    public ResponseEntity<GenreDTO> modifyGenre(@PathVariable long id,
+                                             @RequestBody final GenreDTO dto) {
+        Optional<Genre> optional = service.getOneById(id);
+        if(optional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Genre genre = optional.get();
+        genre.setName(dto.getName());
+        return new ResponseEntity<>(new GenreDTO(service.save(genre)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
