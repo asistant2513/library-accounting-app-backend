@@ -1,18 +1,16 @@
 package com.havrylenko.library.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.havrylenko.library.config.json.filter.SerializationFilter;
 import com.havrylenko.library.model.entity.*;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.Year;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -26,8 +24,11 @@ public class BookDTO {
     private String description;
     private LocalDateTime dateRegistered;
     private boolean isInArchive;
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = SerializationFilter.class)
     private GenreDTO genre;
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = SerializationFilter.class)
     private AuthorDTO author;
+    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = SerializationFilter.class)
     private PublisherDTO publisher;
     private List<ReviewDTO> reviews;
     private String readerId;
@@ -43,7 +44,11 @@ public class BookDTO {
         this.genre = new GenreDTO(book.getGenre());
         this.author = new AuthorDTO(book.getAuthor());
         this.publisher = new PublisherDTO(book.getPublisher());
-        this.reviews = book.getReviews().stream().map(ReviewDTO::new).toList();
-        this.readerId = book.getReader().getUserId();
+        if (book.getReviews() != null) {
+            this.reviews = book.getReviews().stream().map(ReviewDTO::new).toList();
+        }
+        if (book.getReader() != null) {
+            this.readerId = book.getReader().getUserId();
+        }
     }
 }
