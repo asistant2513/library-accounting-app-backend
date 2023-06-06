@@ -1,5 +1,6 @@
 package com.havrylenko.library.controller;
 
+import com.havrylenko.library.model.dto.PublisherDTO;
 import com.havrylenko.library.model.entity.Publisher;
 import com.havrylenko.library.service.PublisherService;
 import org.springframework.http.HttpStatus;
@@ -20,24 +21,40 @@ public class PublisherController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Publisher>> getAllPublishers() {
-        return ResponseEntity.ok(service.getAll());
+    public ResponseEntity<List<PublisherDTO>> getAllPublishers() {
+        return ResponseEntity.ok(service.getAll().stream().map(PublisherDTO::new).toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Publisher> getPublisherByID(@PathVariable final String id) {
+    public ResponseEntity<PublisherDTO> getPublisherByID(@PathVariable final String id) {
         Optional<Publisher> optionalPublisher = service.getOneById(id);
-        return optionalPublisher.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        if(optionalPublisher.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(new PublisherDTO(optionalPublisher.get()));
     }
 
     @PostMapping
-    public ResponseEntity<Publisher> addPublisher(@RequestBody final Publisher publisher) {
-        return new ResponseEntity<>(service.save(publisher), HttpStatus.CREATED);
+    public ResponseEntity<PublisherDTO> addPublisher(@RequestBody final PublisherDTO dto) {
+        Publisher publisher = new Publisher();
+        publisher.setName(dto.getName());
+        publisher.setCountry(dto.getCountry());
+
+        return new ResponseEntity<>(new PublisherDTO(service.save(publisher)), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Publisher> modifyPublisher(@RequestBody final Publisher publisher) {
-        return new ResponseEntity<>(service.save(publisher), HttpStatus.CREATED);
+    public ResponseEntity<PublisherDTO> modifyPublisher(@PathVariable final String id,
+                                                        @RequestBody final PublisherDTO dto) {
+        Optional<Publisher> optionalPublisher = service.getOneById(id);
+        if(optionalPublisher.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Publisher publisher = optionalPublisher.get();
+        publisher.setName(dto.getName());
+        publisher.setCountry(dto.getCountry());
+
+        return ResponseEntity.ok(new PublisherDTO(publisher));
     }
 
     @DeleteMapping("/{id}")
