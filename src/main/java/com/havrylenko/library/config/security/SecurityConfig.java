@@ -1,4 +1,4 @@
-package com.havrylenko.library.config;
+package com.havrylenko.library.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +13,6 @@ public class SecurityConfig {
     @Bean
     @Primary
     public BCryptPasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2B, 8);
+        return new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2B, PASSWORD_STRENGTH);
     }
 }

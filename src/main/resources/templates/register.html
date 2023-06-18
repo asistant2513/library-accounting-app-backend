@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Login Form</title>
+</head>
+<body>
+<h2>Login</h2>
+<form th:action="@{/register}" th:object="${loginForm}" method="post">
+  <div>
+    <label for="username">Username:</label>
+    <input type="text" id="username" th:field="*{username}" required="required" />
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" id="password" th:field="*{password}" required="required" />
+  </div>
+  <div>
+    <label for="repeatPassword">Repeat password:</label>
+    <input type="password" id="repeatPassword" th:field="*{repeatPassword}" required="required" />
+  </div>
+  <div>
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="*{name}" required="required" />
+  </div>
+  <div>
+    <label for="surname">Surname:</label>
+    <input type="text" id="surname" th:field="*{surname}" required="required" />
+  </div>
+  <div>
+    <label for="paternity">Paternity:</label>
+    <input type="text" id="paternity" th:field="*{paternity}" />
+  </div>
+  <div>
+    <label for="gender">Gender:</label>
+    <select id="gender" name="select" th:field="*{gender}" required="required">
+      <option value="MALE">Male</option>
+      <option value="FEMALE">Female</option>
+    </select>
+  </div>
+  <div>
+    <label for="dateOfBirth">Date of birth:</label>
+    <input type="text" id="dateOfBirth" th:field="*{paternity}" required="required"/>
+  </div>
+  <div>
+    <label for="mobilePhone">Mobile phone:</label>
+    <input type="text" id="mobilePhone" th:field="*{mobilePhone}" required="required"/>
+  </div>
+  <div>
+    <input type="submit" value="Register" />
+  </div>
+</form>
+<div th:if="${errorMessage}" style="color: red;">${errorMessage}</div>
+</body>
+</html>
