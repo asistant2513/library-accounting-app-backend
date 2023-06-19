@@ -1,23 +1,47 @@
 package com.havrylenko.library.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.havrylenko.library.config.json.filter.SerializationFilter;
 import com.havrylenko.library.model.entity.Librarian;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.havrylenko.library.model.enums.Gender;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class LibrarianDTO {
-    private UserDTO userDetails;
-    @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = SerializationFilter.class)
-    private PersonDetailsDTO personDetails;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-    public LibrarianDTO(final Librarian librarian) {
-        this.userDetails = new UserDTO(librarian);
-        this.personDetails = new PersonDetailsDTO(librarian.getPersonDetails());
+public record LibrarianDTO(String id,
+                           String username,
+                           String name,
+                           String surname,
+                           String paternity,
+                           String gender,
+                           LocalDate dateOfBirth,
+                           String mobilePhone,
+                           String address,
+                           LocalDateTime accountCreated,
+                           LocalDateTime lastLogin,
+                           LocalDateTime lastPasswordChanged,
+                           Boolean isLocked) {
+
+    public static LibrarianDTO fromLibrarian(final Librarian librarian) {
+        var details = librarian.getPersonDetails();
+        Gender g = details.getGender();
+        String gender;
+        if(g == null) {
+            gender = Gender.MALE.name();
+        } else {
+            gender = g.name();
+        }
+        return new LibrarianDTO(librarian.getUserId(),
+                librarian.getUsername(),
+                details.getName(),
+                details.getSurname(),
+                details.getPaternity(),
+                gender,
+                details.getDateOfBirth(),
+                details.getMobilePhone(),
+                details.getAddress().toString(),
+                librarian.getAccountCreated(),
+                librarian.getLastLoginTime(),
+                librarian.getLastPasswordChangedDate(),
+                !librarian.isAccountNonLocked()
+        );
     }
 }

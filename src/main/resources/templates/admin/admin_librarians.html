@@ -16,6 +16,7 @@
       <th>Name</th>
       <th>Surname</th>
       <th>Paternity</th>
+      <th>Gender</th>
       <th>Date of birth</th>
       <th>Mobile phone</th>
       <th>Address</th>
@@ -25,20 +26,30 @@
       <th>Locked</th>
     </tr>
     <tr th:each="librarian : ${librarians}">
-      <td>${librarian.id}</td>
-      <td>${librarian.username}</td>
-      <td>${librarian.name}</td>
-      <td>${librarian.surname}</td>
-      <td>${librarian.paternity}</td>
-      <td>${librarian.dateOfBirth}</td>
-      <td>${librarian.mobilePhone}</td>
-      <td>${librarian.address}</td>
-      <td>${librarian.accountCreated}</td>
-      <td>${librarian.lastLogin}</td>
-      <td>${librarian.lastPasswordChanged}</td>
-      <td>${librarian.isLocked}</td>
+      <td><a th:href="@{/admin/librarians/{id}(id=${librarian.id})}" th:text="${librarian.id}"></a></td>
+      <td th:text="${librarian.username}"></td>
+      <td th:text="${librarian.name}"></td>
+      <td th:text="${librarian.surname}"></td>
+      <td th:text="${librarian.paternity}"></td>
+      <td th:text="${librarian.gender}"></td>
+      <td th:text="${librarian.dateOfBirth}"></td>
+      <td th:text="${librarian.mobilePhone}"></td>
+      <td th:text="${librarian.address}"></td>
+      <td th:text="${librarian.accountCreated}"></td>
+      <td th:text="${librarian.lastLogin}"></td>
+      <td th:text="${librarian.lastPasswordChanged}"></td>
+      <td>
+        <form th:action="@{/admin/librarians/changeStatus(id=${librarian.id})}" method="post">
+          <input type="submit" th:value="${librarian.isLocked} ? Locked: Unlocked"/>
+        </form>
+      </td>
     </tr>
   </table>
+</div>
+<div>
+  <button>
+    <a th:href="@{/admin/librarians/create}">Create Librarian</a>
+  </button>
 </div>
 </body>
 </html>

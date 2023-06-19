@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Librarian Info</title>
+</head>
+<body>
+<div>
+  <h2>Librarian details</h2>
+</div>
+<form th:object="${librarianDto}" th:action="@{/admin/librarians/{id}/edit(id=${librarianId})}" method="post">
+  <div>
+    <table>
+      <tr>
+        <td>Username:</td>
+        <td>
+          <input type="text" th:field="*{username}" />
+        </td>
+      </tr>
+      <tr>
+        <td>Name:</td>
+        <td>
+          <input type="text" th:field="*{name}" />
+        </td>
+      </tr>
+      <tr>
+        <td>Surname:</td>
+        <td>
+          <input type="text" th:field="*{surname}" />
+        </td>
+      </tr>
+      <tr>
+        <td>Paternity:</td>
+        <td>
+          <input type="text" th:field="*{paternity}" />
+        </td>
+      </tr>
+      <tr>
+        <td>Gender:</td>
+        <td>
+          <select th:field="*{gender}">
+            <option value="MALE" th:selected="${librarianDto.gender == 'MALE'}">Male</option>
+            <option value="FEMALE" th:selected="${librarianDto.gender == 'FEMALE'}">Female</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Date of birth:</td>
+        <td>
+          <input type="date" th:field="*{dateOfBirth}" />
+        </td>
+      </tr>
+      <tr>
+        <td>Mobile phone:</td>
+        <td>
+          <input type="text" th:field="*{mobilePhone}" />
+        </td>
+      </tr>
+      <tr>
+    </table>
+  </div>
+  <div>
+    <input type="submit" value="Save">
+  </div>
+</form>
+</body>
+</html>

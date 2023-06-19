@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Librarian Info</title>
+</head>
+  <body th:object="${librarian}">
+    <div>
+      <h2>Librarian details</h2>
+    </div>
+    <div>
+      <table>
+        <tr>
+          <td>Username:</td>
+          <td th:text="${librarian.username}"></td>
+        </tr>
+        <tr>
+          <td>Name:</td>
+          <td th:text="${librarian.name}"></td>
+        </tr>
+        <tr>
+          <td>Surname:</td>
+          <td th:text="${librarian.surname}"></td>
+        </tr>
+        <tr>
+          <td>Paternity:</td>
+          <td th:text="${librarian.paternity}"></td>
+        </tr>
+        <tr>
+          <td>Gender:</td>
+          <td th:text="${librarian.gender}"></td>
+        </tr>
+        <tr>
+          <td>Date of birth:</td>
+          <td th:text="${librarian.dateOfBirth}"></td>
+        </tr>
+        <tr>
+          <td>Mobile phone:</td>
+          <td th:text="${librarian.mobilePhone}"></td>
+        </tr>
+        <tr>
+          <td>Address:</td>
+          <td th:text="${librarian.address}"></td>
+        </tr>
+        <tr>
+          <td>Account created:</td>
+          <td th:text="${librarian.accountCreated}"></td>
+        </tr>
+        <tr>
+          <td>Last login:</td>
+          <td th:text="${librarian.lastLogin}"></td>
+        </tr>
+        <tr>
+          <td>Last password change</td>
+          <td th:text="${librarian.lastPasswordChanged}"></td>
+        </tr>
+        <tr>
+          <td>Password:</td>
+          <td>
+            <form id="resetPass" th:action="@{/admin/librarians/{id}/resetPassword(id=${librarian.id})}" method="post">
+              <input type="submit" value="Reset Password" form="resetPass">
+            </form>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div>
+      <button>
+        <a th:href="@{/admin/librarians/{id}/edit(id=${librarian.id})}">Edit</a>
+      </button>
+      <form th:action="@{/admin/librarians/{id}/delete(id=${librarian.id})}" method="post">
+        <input type="submit" value="Delete" />
+      </form>
+    </div>
+  </body>
+</html>

@@ -26,7 +26,6 @@ public abstract class User implements UserDetails {
     @Setter
     @Column(unique = true)
     protected String username;
-    @Setter
     protected String password;
     @Getter
     protected LocalDateTime accountCreated;
@@ -98,5 +97,10 @@ public abstract class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return !this.isLocked;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+        this.lastPasswordChangedDate = LocalDateTime.now();
     }
 }
