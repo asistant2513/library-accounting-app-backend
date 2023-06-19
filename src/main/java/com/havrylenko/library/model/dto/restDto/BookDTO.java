@@ -1,4 +1,4 @@
-package com.havrylenko.library.model.dto;
+package com.havrylenko.library.model.dto.restDto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.havrylenko.library.config.json.filter.SerializationFilter;
@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.Year;
-import java.util.Collections;
 import java.util.List;
 
 @Getter

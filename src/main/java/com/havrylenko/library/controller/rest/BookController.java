@@ -1,6 +1,6 @@
-package com.havrylenko.library.controller;
+package com.havrylenko.library.controller.rest;
 
-import com.havrylenko.library.model.dto.BookDTO;
+import com.havrylenko.library.model.dto.restDto.BookDTO;
 import com.havrylenko.library.model.entity.Author;
 import com.havrylenko.library.model.entity.Book;
 import com.havrylenko.library.model.entity.Genre;
@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.time.Year;
 import java.util.List;
 import java.util.Optional;
 

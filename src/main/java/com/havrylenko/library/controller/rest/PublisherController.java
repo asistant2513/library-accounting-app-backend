@@ -1,6 +1,6 @@
-package com.havrylenko.library.controller;
+package com.havrylenko.library.controller.rest;
 
-import com.havrylenko.library.model.dto.PublisherDTO;
+import com.havrylenko.library.model.dto.restDto.PublisherDTO;
 import com.havrylenko.library.model.entity.Publisher;
 import com.havrylenko.library.service.PublisherService;
 import org.springframework.http.HttpStatus;

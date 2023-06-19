@@ -1,4 +1,4 @@
-package com.havrylenko.library.model.dto;
+package com.havrylenko.library.model.dto.restDto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.havrylenko.library.config.json.filter.NullableFilter;

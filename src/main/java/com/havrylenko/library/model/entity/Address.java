@@ -29,7 +29,6 @@ public class Address {
 
     @Override
     public String toString() {
-        //TODO: implement toString for address line
-        return "String.format()";
+        return String.format("%s %s %s %s %s %s/%s, %d", country, city, district, village, street, building, apartment, zipCode);
     }
 }

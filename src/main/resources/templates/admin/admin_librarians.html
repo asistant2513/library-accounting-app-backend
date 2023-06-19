@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+  <h2>Librarians</h2>
+</div>
+<div>
+  <table th:object="${librarians}">
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Name</th>
+      <th>Surname</th>
+      <th>Paternity</th>
+      <th>Date of birth</th>
+      <th>Mobile phone</th>
+      <th>Address</th>
+      <th>Account created</th>
+      <th>Last login</th>
+      <th>Password changed on</th>
+      <th>Locked</th>
+    </tr>
+    <tr th:each="librarian : ${librarians}">
+      <td>${librarian.id}</td>
+      <td>${librarian.username}</td>
+      <td>${librarian.name}</td>
+      <td>${librarian.surname}</td>
+      <td>${librarian.paternity}</td>
+      <td>${librarian.dateOfBirth}</td>
+      <td>${librarian.mobilePhone}</td>
+      <td>${librarian.address}</td>
+      <td>${librarian.accountCreated}</td>
+      <td>${librarian.lastLogin}</td>
+      <td>${librarian.lastPasswordChanged}</td>
+      <td>${librarian.isLocked}</td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>

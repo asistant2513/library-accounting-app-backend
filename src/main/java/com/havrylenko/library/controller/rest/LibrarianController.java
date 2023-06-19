@@ -1,8 +1,8 @@
-package com.havrylenko.library.controller;
+package com.havrylenko.library.controller.rest;
 
-import com.havrylenko.library.model.dto.AddressDTO;
-import com.havrylenko.library.model.dto.LibrarianDTO;
-import com.havrylenko.library.model.dto.NewUserDTO;
+import com.havrylenko.library.model.dto.restDto.AddressDTO;
+import com.havrylenko.library.model.dto.restDto.LibrarianDTO;
+import com.havrylenko.library.model.dto.restDto.NewUserDTO;
 import com.havrylenko.library.model.entity.Address;
 import com.havrylenko.library.model.entity.Librarian;
 import com.havrylenko.library.model.entity.PersonDetails;

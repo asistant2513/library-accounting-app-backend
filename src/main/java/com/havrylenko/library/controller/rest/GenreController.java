@@ -1,6 +1,6 @@
-package com.havrylenko.library.controller;
+package com.havrylenko.library.controller.rest;
 
-import com.havrylenko.library.model.dto.GenreDTO;
+import com.havrylenko.library.model.dto.restDto.GenreDTO;
 import com.havrylenko.library.model.entity.Genre;
 import com.havrylenko.library.service.GenreService;
 import org.springframework.http.HttpStatus;

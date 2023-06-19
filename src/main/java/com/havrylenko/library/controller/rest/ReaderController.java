@@ -1,8 +1,8 @@
-package com.havrylenko.library.controller;
+package com.havrylenko.library.controller.rest;
 
-import com.havrylenko.library.model.dto.AddressDTO;
-import com.havrylenko.library.model.dto.NewUserDTO;
-import com.havrylenko.library.model.dto.ReaderDTO;
+import com.havrylenko.library.model.dto.restDto.AddressDTO;
+import com.havrylenko.library.model.dto.restDto.NewUserDTO;
+import com.havrylenko.library.model.dto.restDto.ReaderDTO;
 import com.havrylenko.library.model.entity.*;
 import com.havrylenko.library.service.*;
 import org.springframework.http.HttpStatus;
