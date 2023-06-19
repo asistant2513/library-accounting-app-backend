@@ -37,11 +37,17 @@ public record LibrarianDTO(String id,
                 gender,
                 details.getDateOfBirth(),
                 details.getMobilePhone(),
-                details.getAddress().toString(),
+                details.getAddress() != null ? details.getAddress().toString() : "",
                 librarian.getAccountCreated(),
                 librarian.getLastLoginTime(),
                 librarian.getLastPasswordChangedDate(),
                 !librarian.isAccountNonLocked()
         );
+    }
+
+    public static LibrarianDTO getInstance() {
+        return new LibrarianDTO("", "", "",
+                "", "", "", LocalDate.now(), "","", LocalDateTime.now(),
+                LocalDateTime.now(), LocalDateTime.now(), false);
     }
 }

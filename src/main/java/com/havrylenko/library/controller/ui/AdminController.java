@@ -1,9 +1,14 @@
 package com.havrylenko.library.controller.ui;
 
 import com.havrylenko.library.model.dto.LibrarianDTO;
+import com.havrylenko.library.model.entity.Address;
 import com.havrylenko.library.model.entity.Librarian;
+import com.havrylenko.library.model.entity.PersonDetails;
 import com.havrylenko.library.model.enums.Gender;
+import com.havrylenko.library.model.security.Role;
+import com.havrylenko.library.service.AddressService;
 import com.havrylenko.library.service.LibrarianService;
+import com.havrylenko.library.service.PersonDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +20,17 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
     private final LibrarianService librarianService;
+    private final PersonDetailsService personDetailsService;
+    private final AddressService addressService;
     private final BCryptPasswordEncoder encoder;
 
     public AdminController(LibrarianService librarianService,
+                           PersonDetailsService personDetailsService,
+                           AddressService addressService,
                            BCryptPasswordEncoder encoder) {
         this.librarianService = librarianService;
+        this.personDetailsService = personDetailsService;
+        this.addressService = addressService;
         this.encoder = encoder;
     }
 
@@ -37,12 +48,57 @@ public class AdminController {
         return "admin/admin_single_librarian";
     }
 
+    @GetMapping("/librarians/add")
+    public String addLibrarian(Model model) {
+        model.addAttribute("librarianDto", LibrarianDTO.getInstance());
+        model.addAttribute("password", "");
+        model.addAttribute("repeatPassword", "");
+        return "admin/admin_add_librarian";
+    }
+
+    @PostMapping("/librarians/add")
+    public String addLibrarian(@ModelAttribute("librarianDto") LibrarianDTO dto,
+                               @ModelAttribute("password") String password,
+                               @ModelAttribute("repeatPassword") String repeatPassword) {
+        //TODO: check passwords match
+        Librarian librarian = new Librarian();
+        librarian.setUsername(dto.username());
+        librarian.setPassword(password);
+        librarian.setUserRole(Role.LIBRARIAN);
+
+        Address address = new Address();
+        address = addressService.save(address);
+
+        PersonDetails details = PersonDetails.builder()
+                .name(dto.name())
+                .surname(dto.surname())
+                .paternity(dto.paternity())
+                .gender(Gender.valueOf(dto.gender()))
+                .dateOfBirth(dto.dateOfBirth())
+                .mobilePhone(dto.mobilePhone())
+                .build();
+        details = personDetailsService.save(details);
+
+        librarian.setPersonDetails(details);
+        librarianService.save(librarian);
+
+        return "redirect:/admin/librarians";
+    }
+
     @PostMapping("/librarians/{id}/resetPassword")
     public String resetPassword(@PathVariable String id) {
         Librarian librarian = librarianService.getOneById(id).get();
         librarian.setPassword(encoder.encode("temporary"));
         librarianService.save(librarian);
         return "redirect:/admin/librarians/{id}";
+    }
+
+    @PostMapping("/librarians/changeStatus")
+    public String changeStatus(@RequestParam String id) {
+        Librarian librarian = librarianService.getOneById(id).get();
+        librarian.setLocked(librarian.isAccountNonLocked());
+        librarianService.save(librarian);
+        return "redirect:/admin/librarians";
     }
 
     @GetMapping("/librarians/{id}/edit")

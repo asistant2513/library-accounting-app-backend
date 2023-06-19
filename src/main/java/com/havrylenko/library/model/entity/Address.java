@@ -29,6 +29,15 @@ public class Address {
 
     @Override
     public String toString() {
-        return String.format("%s %s %s %s %s %s/%s, %d", country, city, district, village, street, building, apartment, zipCode);
+        StringBuilder sb = new StringBuilder();
+        sb.append(country != null ? country + " " : "")
+                .append(country != null ? country + " " : "")
+                .append(city != null ? city + " " : "")
+                .append(district != null ? district + " " : "")
+                .append(village != null ? village + " " : "")
+                .append(building != null ? building : "")
+                .append(apartment != null ? "/" + apartment + "," : "")
+                .append(zipCode != 0 ? zipCode : "");
+        return sb.toString();
     }
 }

@@ -4,60 +4,79 @@
   <title>Registration</title>
 </head>
 <body>
-<h2>Login</h2>
+<h2>Registration</h2>
 <form th:action="@{/register}" th:object="${regForm}" method="post">
-  <div>
-    <label for="librarian">Librarian to approve reader card:</label>
-    <select id="librarian" th:field="*{librarianId}" required="required">
-      <option th:each="librarian : ${librarians}"
-              th:value="${librarian.id}"
-              th:text="${librarian.fullName}">
-      </option>
-    </select>
-  </div>
-  <div>
-    <label for="username">Username <span style="color: red;">*</span>:</label>
-    <input type="text" id="username" th:field="*{username}" required="required" />
-  </div>
-  <div>
-    <label for="password">Password <span style="color: red;">*</span>:</label>
-    <input type="password" id="password" th:field="*{password}" required="required" />
-  </div>
-  <div>
-    <label for="repeatPassword">Repeat password <span style="color: red;">*</span>:</label>
-    <input type="password" id="repeatPassword" th:field="*{repeatPassword}" required="required" />
-  </div>
-  <div>
-    <label for="name">Name <span style="color: red;">*</span>:</label>
-    <input type="text" id="name" th:field="*{name}" required="required" />
-  </div>
-  <div>
-    <label for="surname">Surname <span style="color: red;">*</span>:</label>
-    <input type="text" id="surname" th:field="*{surname}" required="required" />
-  </div>
-  <div>
-    <label for="paternity">Paternity:</label>
-    <input type="text" id="paternity" th:field="*{paternity}" />
-  </div>
-  <div>
-    <label for="gender">Gender <span style="color: red;">*</span>:</label>
-    <select id="gender" th:field="*{gender}" required="required">
-      <option value="MALE">Male</option>
-      <option value="FEMALE">Female</option>
-    </select>
-  </div>
-  <div>
-    <label for="dateOfBirth">Date of birth <span style="color: red;">*</span>:</label>
-    <input type="date" id="dateOfBirth" th:field="*{dateOfBirth}" required="required"/>
-  </div>
-  <div>
-    <label for="mobilePhone">Mobile phone <span style="color: red;">*</span>:</label>
-    <input type="text" id="mobilePhone" th:field="*{mobilePhone}" required="required"/>
-  </div>
+  <table>
+    <tr>
+      <td>Librarian to approve reader card:</td>
+      <td>
+        <select th:field="*{librarianId}" required="required">
+          <option th:each="librarian : ${librarians}"
+                  th:value="${librarian.id}"
+                  th:text="${librarian.fullName}">
+          </option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Username:</td>
+      <td>
+        <input type="text" id="username" th:field="*{username}" required="required" />
+      </td>
+    </tr>
+    <tr>
+      <td>Password:</td>
+      <td>
+        <input type="password" id="password" th:field="*{password}" required="required" />
+      </td>
+    </tr>
+    <tr>
+      <td>Repeat password:</td>
+      <td><input type="password" id="repeatPassword" th:field="*{repeatPassword}" required="required" /></td>
+    </tr>
+    <tr>
+      <td>Name:</td>
+      <td>
+        <input type="text" id="name" th:field="*{name}" required="required" />
+      </td>
+    </tr>
+    <tr>
+      <td>Surname:</td>
+      <td>
+        <input type="text" id="surname" th:field="*{surname}" required="required" />
+      </td>
+    </tr>
+    <tr>
+      <td>Paternity:</td>
+      <td>
+        <input type="text" id="paternity" th:field="*{paternity}" />
+      </td>
+    </tr>
+    <tr>
+      <td>Gender:</td>
+      <td>
+        <select id="gender" th:field="*{gender}" required="required">
+          <option value="MALE">Male</option>
+          <option value="FEMALE">Female</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Date of birth:</td>
+      <td>
+        <input type="date" th:field="*{dateOfBirth}" required="required"/>
+      </td>
+    </tr>
+    <tr>
+      <td>Mobile phone:</td>
+      <td>
+        <input type="text" id="mobilePhone" th:field="*{mobilePhone}" required="required"/>
+      </td>
+    </tr>
+  </table>
   <div>
     <input type="submit" value="Register" />
   </div>
 </form>
-<div th:if="${errorMessage}" style="color: red;">${errorMessage}</div>
 </body>
 </html>

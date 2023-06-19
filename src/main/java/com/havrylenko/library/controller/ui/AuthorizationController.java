@@ -83,6 +83,7 @@ public class AuthorizationController {
 
     @PostMapping("register")
     public String register(@ModelAttribute("regForm") RegistrationDTO dto) {
+        //TODO: check passwords match
         Reader reader = new Reader();
         reader.setUsername(dto.username());
         reader.setPassword(dto.password());
