@@ -17,31 +17,14 @@
       <th>Issued on</th>
       <th>Expires on</th>
     </tr>
-    <tr th:each="librarian : ${librarians}">
-      <td><a th:href="@{/admin/librarians/{id}(id=${librarian.id})}" th:text="${librarian.id}"></a></td>
-      <td th:text="${librarian.username}"></td>
-      <td th:text="${librarian.name}"></td>
-      <td th:text="${librarian.surname}"></td>
-      <td th:text="${librarian.paternity}"></td>
-      <td th:text="${librarian.gender}"></td>
-      <td th:text="${librarian.dateOfBirth}"></td>
-      <td th:text="${librarian.mobilePhone}"></td>
-      <td th:text="${librarian.address}"></td>
-      <td th:text="${librarian.accountCreated}"></td>
-      <td th:text="${librarian.lastLogin}"></td>
-      <td th:text="${librarian.lastPasswordChanged}"></td>
-      <td>
-        <form th:action="@{/admin/librarians/changeStatus(id=${librarian.id})}" method="post">
-          <input type="submit" th:value="${librarian.isLocked} ? Locked: Unlocked"/>
-        </form>
-      </td>
+    <tr th:each="card : ${cards}">
+      <td><a th:href="@{/admin/cards/{id}(id=${card.id})}" th:text="${card.id}"></a></td>
+      <td><a th:href="@{/admin/readers/{id}(id=${card.readerId})}" th:text="${card.readerId}"></a></td>
+      <td><a th:href="@{/admin/librarians/{id}(id=${card.librarianId})}" th:text="${card.librarianId}"></a></td>
+      <td th:text="${card.issuedOn}"></td>
+      <td th:text="${card.expiresOn}"></td>
     </tr>
   </table>
-</div>
-<div>
-  <button>
-    <a th:href="@{/admin/librarians/add}">Create Librarian</a>
-  </button>
 </div>
 </body>
 </html>

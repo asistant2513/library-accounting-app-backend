@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View reader card info</title>
+</head>
+  <body th:object="${card}">
+    <div>
+      <h2>Reader card details</h2>
+    </div>
+    <div>
+      <table>
+        <tr>
+          <td>Reader ID:</td>
+          <td><a th:href="@{/admin/readers/{id}(id=${card.readerId})}" th:text="${card.readerId}"></a></td>
+        </tr>
+        <tr>
+          <td>Issued By:</td>
+          <td><a th:href="@{/admin/librarians/{id}(id=${card.librarianId})}" th:text="${card.librarianId}"></a></td>
+        </tr>
+        <tr>
+          <td>Issued On:</td>
+          <td th:text="${card.issuedOn}"></td>
+        </tr>
+        <tr>
+          <td>Expires On:</td>
+          <td th:text="${card.expiresOn}"></td>
+        </tr>
+      </table>
+    </div>
+    <div>
+      <button>
+        <a th:href="@{/admin/cards/{id}/edit(id=${card.id})}">Edit</a>
+      </button>
+    </div>
+  </body>
+</html>

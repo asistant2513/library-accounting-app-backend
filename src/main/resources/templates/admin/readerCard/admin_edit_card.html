@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Reader Card Info</title>
+</head>
+<body>
+<div>
+  <h2>Reader card details</h2>
+</div>
+<form th:object="${card}" th:action="@{/admin/cards/{id}/edit(id=${card.id})}" method="post">
+  <div>
+    <table>
+      <tr>
+        <td>Reader ID:</td>
+        <td>
+          <input type="text" th:field="*{readerId}" disabled="disabled" />
+        </td>
+      </tr>
+      <tr>
+        <td>Issued By:</td>
+        <td>
+          <select th:field="*{librarianId}">
+            <option th:each="librarian : ${librarians}"
+                    th:value="${librarian.id}"
+                    th:text="${librarian.fullName}" th:selected="${card.librarianId == librarian.id}">
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Issued On:</td>
+        <td>
+          <input type="date" th:field="*{issuedOn}" disabled="disabled" />
+        </td>
+      </tr>
+      <tr>
+        <td>Expires On:</td>
+        <td>
+          <input type="date" th:field="*{expiresOn}" />
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div>
+    <input type="submit" value="Save">
+  </div>
+</form>
+</body>
+</html>
