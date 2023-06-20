@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <h2>Librarians</h2>
+</div>
+<div>
+    <table th:object="${readers}">
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Paternity</th>
+            <th>Gender</th>
+            <th>Date of birth</th>
+            <th>Mobile phone</th>
+            <th>Address</th>
+            <th>Reader card ID</th>
+            <th>Books</th>
+            <th>Account created</th>
+            <th>Last login</th>
+            <th>Password changed on</th>
+            <th>Locked</th>
+        </tr>
+        <tr th:each="reader : ${readers}">
+            <td>
+                <a th:href="@{/admin/readers/{id}(id=${reader.id})}" th:text="${reader.id}"></a>
+            </td>
+            <td th:text="${reader.username}"></td>
+            <td th:text="${reader.name}"></td>
+            <td th:text="${reader.surname}"></td>
+            <td th:text="${reader.paternity}"></td>
+            <td th:text="${reader.gender}"></td>
+            <td th:text="${reader.dateOfBirth}"></td>
+            <td th:text="${reader.mobilePhone}"></td>
+            <td th:text="${reader.address}"></td>
+            <td>
+                <a th:href="@{/admin/cards/{id}(id=${reader.readerCardId})}" th:text="${reader.readerCardId}"></a>
+            </td>
+            <td>
+                <a th:href="@{/admin/books?readerId={id}(id=${reader.id})}"> View books</a>
+            </td>
+            <td th:text="${reader.accountCreated}"></td>
+            <td th:text="${reader.lastLogin}"></td>
+            <td th:text="${reader.lastPasswordChanged}"></td>
+            <td>
+                <form th:action="@{/admin/readers/changeStatus(id=${reader.id})}" method="post">
+                    <input type="submit" th:value="${reader.isLocked} ? Locked: Unlocked"/>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

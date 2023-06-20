@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reader cards</title>
+</head>
+<body>
+<div>
+  <h2>Reader cards</h2>
+</div>
+<div>
+  <table th:object="${cards}">
+    <tr>
+      <th>ID</th>
+      <th>Reader ID</th>
+      <th>Issued by</th>
+      <th>Issued on</th>
+      <th>Expires on</th>
+    </tr>
+    <tr th:each="librarian : ${librarians}">
+      <td><a th:href="@{/admin/librarians/{id}(id=${librarian.id})}" th:text="${librarian.id}"></a></td>
+      <td th:text="${librarian.username}"></td>
+      <td th:text="${librarian.name}"></td>
+      <td th:text="${librarian.surname}"></td>
+      <td th:text="${librarian.paternity}"></td>
+      <td th:text="${librarian.gender}"></td>
+      <td th:text="${librarian.dateOfBirth}"></td>
+      <td th:text="${librarian.mobilePhone}"></td>
+      <td th:text="${librarian.address}"></td>
+      <td th:text="${librarian.accountCreated}"></td>
+      <td th:text="${librarian.lastLogin}"></td>
+      <td th:text="${librarian.lastPasswordChanged}"></td>
+      <td>
+        <form th:action="@{/admin/librarians/changeStatus(id=${librarian.id})}" method="post">
+          <input type="submit" th:value="${librarian.isLocked} ? Locked: Unlocked"/>
+        </form>
+      </td>
+    </tr>
+  </table>
+</div>
+<div>
+  <button>
+    <a th:href="@{/admin/librarians/add}">Create Librarian</a>
+  </button>
+</div>
+</body>
+</html>

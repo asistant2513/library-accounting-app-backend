@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Reader Info</title>
+</head>
+  <body th:object="${reader}">
+    <div>
+      <h2>Reader details</h2>
+    </div>
+    <div>
+      <table>
+        <tr>
+          <td>Username:</td>
+          <td th:text="${reader.username}"></td>
+        </tr>
+        <tr>
+          <td>Name:</td>
+          <td th:text="${reader.name}"></td>
+        </tr>
+        <tr>
+          <td>Surname:</td>
+          <td th:text="${reader.surname}"></td>
+        </tr>
+        <tr>
+          <td>Paternity:</td>
+          <td th:text="${reader.paternity}"></td>
+        </tr>
+        <tr>
+          <td>Gender:</td>
+          <td th:text="${reader.gender}"></td>
+        </tr>
+        <tr>
+          <td>Date of birth:</td>
+          <td th:text="${reader.dateOfBirth}"></td>
+        </tr>
+        <tr>
+          <td>Mobile phone:</td>
+          <td th:text="${reader.mobilePhone}"></td>
+        </tr>
+        <tr>
+          <td>Address:</td>
+          <td th:text="${reader.address}"></td>
+        </tr>
+        <tr>
+          <td>Reader card:</td>
+          <td>
+            <a th:href="@{/admin/cards/{id}(id=${reader.readerCardId})}" th:text="${reader.readerCardId}"></a>
+          </td>
+        </tr>
+        <tr>
+          <td>Books:</td>
+          <td>
+            <a th:href="@{/admin/books?readerId={id}(id=${reader.id})}"> View books</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Account created:</td>
+          <td th:text="${reader.accountCreated}"></td>
+        </tr>
+        <tr>
+          <td>Last login:</td>
+          <td th:text="${reader.lastLogin}"></td>
+        </tr>
+        <tr>
+          <td>Last password change</td>
+          <td th:text="${reader.lastPasswordChanged}"></td>
+        </tr>
+        <tr>
+          <td>Password:</td>
+          <td>
+            <form id="resetPass" th:action="@{/admin/readers/{id}/resetPassword(id=${reader.id})}" method="post">
+              <input type="submit" value="Reset Password" form="resetPass">
+            </form>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div>
+      <button>
+        <a th:href="@{/admin/readers/{id}/edit(id=${reader.id})}">Edit</a>
+      </button>
+      <form th:action="@{/admin/readers/{id}/delete(id=${reader.id})}" method="post">
+        <input type="submit" value="Delete" />
+      </form>
+    </div>
+  </body>
+</html>

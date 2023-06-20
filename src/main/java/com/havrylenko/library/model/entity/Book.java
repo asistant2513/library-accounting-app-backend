@@ -26,6 +26,7 @@ public class Book {
     private String description;
     private LocalDateTime dateRegistered;
     private boolean isInArchive;
+    private long timesBooked;
 
     @ManyToOne
     @JoinColumn(name="genreId", nullable = false)

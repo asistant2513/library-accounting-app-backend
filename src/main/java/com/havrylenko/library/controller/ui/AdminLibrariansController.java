@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/admin/librarians")
+public class AdminLibrariansController {
     private final LibrarianService librarianService;
     private final PersonDetailsService personDetailsService;
     private final AddressService addressService;
     private final BCryptPasswordEncoder encoder;
 
-    public AdminController(LibrarianService librarianService,
+    public AdminLibrariansController(LibrarianService librarianService,
                            PersonDetailsService personDetailsService,
                            AddressService addressService,
                            BCryptPasswordEncoder encoder) {
@@ -34,29 +34,29 @@ public class AdminController {
         this.encoder = encoder;
     }
 
-    @GetMapping("/librarians")
+    @GetMapping()
     public String getLibrariansView(Model model) {
         List<LibrarianDTO> dtos = librarianService.getAll().stream().map(LibrarianDTO::fromLibrarian).toList();
         model.addAttribute("librarians", dtos);
-        return "admin/admin_librarians";
+        return "admin/librarian/admin_librarians";
     }
 
-    @GetMapping("/librarians/{id}")
+    @GetMapping("/{id}")
     public String getOneLibrarianView(Model model, @PathVariable String id) {
         Librarian librarian = librarianService.getOneById(id).get();
         model.addAttribute("librarian", LibrarianDTO.fromLibrarian(librarian));
-        return "admin/admin_single_librarian";
+        return "admin/librarian/admin_single_librarian";
     }
 
-    @GetMapping("/librarians/add")
+    @GetMapping("/add")
     public String addLibrarian(Model model) {
         model.addAttribute("librarianDto", LibrarianDTO.getInstance());
         model.addAttribute("password", "");
         model.addAttribute("repeatPassword", "");
-        return "admin/admin_add_librarian";
+        return "admin/librarian/admin_add_librarian";
     }
 
-    @PostMapping("/librarians/add")
+    @PostMapping("/add")
     public String addLibrarian(@ModelAttribute("librarianDto") LibrarianDTO dto,
                                @ModelAttribute("password") String password,
                                @ModelAttribute("repeatPassword") String repeatPassword) {
@@ -85,7 +85,7 @@ public class AdminController {
         return "redirect:/admin/librarians";
     }
 
-    @PostMapping("/librarians/{id}/resetPassword")
+    @PostMapping("/{id}/resetPassword")
     public String resetPassword(@PathVariable String id) {
         Librarian librarian = librarianService.getOneById(id).get();
         librarian.setPassword(encoder.encode("temporary"));
@@ -93,7 +93,7 @@ public class AdminController {
         return "redirect:/admin/librarians/{id}";
     }
 
-    @PostMapping("/librarians/changeStatus")
+    @PostMapping("/changeStatus")
     public String changeStatus(@RequestParam String id) {
         Librarian librarian = librarianService.getOneById(id).get();
         librarian.setLocked(librarian.isAccountNonLocked());
@@ -101,15 +101,15 @@ public class AdminController {
         return "redirect:/admin/librarians";
     }
 
-    @GetMapping("/librarians/{id}/edit")
+    @GetMapping("/{id}/edit")
     public String editLibrarian(@PathVariable String id, Model model) {
         Librarian librarian = librarianService.getOneById(id).get();
         model.addAttribute("librarianDto", LibrarianDTO.fromLibrarian(librarian));
         model.addAttribute("librarianId", librarian.getUserId());
-        return "admin/admin_edit_librarian";
+        return "admin/librarian/admin_edit_librarian";
     }
 
-    @PostMapping("/librarians/{id}/edit")
+    @PostMapping("/{id}/edit")
     public String editLibrarian(@PathVariable String id, @ModelAttribute("librarian") LibrarianDTO dto) {
         Librarian librarian = librarianService.getOneById(id).get();
         librarian.setUsername(dto.username());
@@ -123,7 +123,7 @@ public class AdminController {
         return "redirect:/admin/librarians/{id}";
     }
 
-    @PostMapping("/librarians/{id}/delete")
+    @PostMapping("/{id}/delete")
     public String deleteLibrarian(@PathVariable String id, Model model) {
         try {
             librarianService.deleteById(id);
