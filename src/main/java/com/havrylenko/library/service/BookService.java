@@ -37,5 +37,9 @@ public class BookService {
         repository.deleteById(id);
     }
 
+    public List<Book> getBooksByReaderId(String readerId) {
+        return repository.getBooksByReaderId(readerId);
+    }
+
     //TODO: add filters for books
 }

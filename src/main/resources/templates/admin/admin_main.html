@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<nav th:insert="/admin/admin_navbar.html"></nav>
+<body>
+<div class="col-6 text-center mx-auto p-3 bg-custom" style="background-color: #bad1f5;">
+  <h2 class="text-center my-4">Administration panels</h2>
+  <hr>
+  <a th:href="@{/admin/books}"><button class="btn btn-primary btn-lg my-2 col-10">Books</button></a>
+  <br/>
+  <a th:href="@{/admin/librarians}"><button class="btn btn-primary btn-lg my-2 col-10">Librarians</button></a>
+  <br/>
+  <a th:href="@{/admin/readers}"><button class="btn btn-primary btn-lg my-2 col-10">Readers</button></a>
+  <br/>
+  <a th:href="@{/admin/cards}"><button class="btn btn-primary btn-lg my-2 col-10">Reader cards</button></a>
+  <br/>
+  <a th:href="@{/logout}"><button class="btn btn-secondary btn-lg my-2 col-10">Logout</button></a>
+</div>
+</body>
+</html>

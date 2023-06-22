@@ -1,6 +1,7 @@
 package com.havrylenko.library.controller.ui;
 
 import com.havrylenko.library.model.dto.LibrarianDTO;
+import com.havrylenko.library.model.dto.PasswordDto;
 import com.havrylenko.library.model.entity.Address;
 import com.havrylenko.library.model.entity.Librarian;
 import com.havrylenko.library.model.entity.PersonDetails;
@@ -51,19 +52,17 @@ public class AdminLibrariansController {
     @GetMapping("/add")
     public String addLibrarian(Model model) {
         model.addAttribute("librarianDto", LibrarianDTO.getInstance());
-        model.addAttribute("password", "");
-        model.addAttribute("repeatPassword", "");
+        model.addAttribute("passwordDto", new PasswordDto("", ""));
         return "admin/librarian/admin_add_librarian";
     }
 
     @PostMapping("/add")
     public String addLibrarian(@ModelAttribute("librarianDto") LibrarianDTO dto,
-                               @ModelAttribute("password") String password,
-                               @ModelAttribute("repeatPassword") String repeatPassword) {
+                               @ModelAttribute("passwordDto") PasswordDto passwordDto) {
         //TODO: check passwords match
         Librarian librarian = new Librarian();
         librarian.setUsername(dto.username());
-        librarian.setPassword(password);
+        librarian.setPassword(encoder.encode(passwordDto.password()));
         librarian.setUserRole(Role.LIBRARIAN);
 
         Address address = new Address();

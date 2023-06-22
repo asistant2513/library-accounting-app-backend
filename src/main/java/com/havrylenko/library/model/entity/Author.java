@@ -1,15 +1,13 @@
 package com.havrylenko.library.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -23,4 +21,9 @@ public class Author {
 
     @OneToMany(mappedBy = "author")
     private Set<Book> books;
+
+    @Override
+    public String toString() {
+        return String.format("%s %s, %s", surname, name, country);
+    }
 }

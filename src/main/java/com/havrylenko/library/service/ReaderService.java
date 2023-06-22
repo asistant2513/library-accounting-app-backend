@@ -25,6 +25,10 @@ public class ReaderService {
         return repository.findById(id);
     }
 
+    public Optional<Reader> getOneByUsername(final String username) {
+        return repository.findByUsername(username);
+    }
+
     public Reader save(final Reader reader) {
         return repository.save(reader);
     }

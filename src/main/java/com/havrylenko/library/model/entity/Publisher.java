@@ -4,12 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Publisher {
@@ -18,4 +17,9 @@ public class Publisher {
     private String id;
     private String name;
     private String country;
+
+    @Override
+    public String toString() {
+        return String.format("%s, %s", name, country);
+    }
 }

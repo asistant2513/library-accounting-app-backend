@@ -1,18 +1,17 @@
 package com.havrylenko.library.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Type;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -23,10 +22,12 @@ public class Book {
     private String name;
     private Year publishingYear;
     private int pages;
+    @Column(columnDefinition = "text", length = 65535)
     private String description;
     private LocalDateTime dateRegistered;
     private boolean isInArchive;
-    private long timesBooked;
+    private int timesBooked;
+    private LocalDate reservedTill;
 
     @ManyToOne
     @JoinColumn(name="genreId", nullable = false)

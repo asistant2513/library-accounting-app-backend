@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
+<nav th:insert="/admin/admin_navbar.html"></nav>
 <body>
 <div>
-  <h2>Librarians</h2>
+  <h2 class="text-center">Librarians</h2>
 </div>
 <div>
-  <table th:object="${librarians}">
-    <tr>
+  <table th:object="${librarians}" class="table table-bordered">
+    <tr class="table-secondary">
       <th>ID</th>
       <th>Username</th>
       <th>Name</th>
@@ -40,16 +42,18 @@
       <td th:text="${librarian.lastPasswordChanged}"></td>
       <td>
         <form th:action="@{/admin/librarians/changeStatus(id=${librarian.id})}" method="post">
-          <input type="submit" th:value="${librarian.isLocked} ? Locked: Unlocked"/>
+          <input type="submit" th:value="${librarian.isLocked} ? Locked: Unlocked" class="btn btn-secondary"/>
         </form>
       </td>
     </tr>
   </table>
 </div>
 <div>
-  <button>
-    <a th:href="@{/admin/librarians/add}">Create Librarian</a>
+  <a th:href="@{/admin/librarians/add}">
+  <button class="btn btn-success">
+    Create Librarian
   </button>
+  </a>
 </div>
 </body>
 </html>

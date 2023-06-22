@@ -8,12 +8,12 @@ import com.havrylenko.library.model.entity.Reader;
 import com.havrylenko.library.model.entity.ReaderCard;
 import com.havrylenko.library.model.enums.Gender;
 import com.havrylenko.library.model.security.Role;
-import com.havrylenko.library.model.security.User;
 import com.havrylenko.library.repository.UserRepository;
 import com.havrylenko.library.service.LibrarianService;
 import com.havrylenko.library.service.PersonDetailsService;
 import com.havrylenko.library.service.ReaderCardService;
 import com.havrylenko.library.service.ReaderService;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -57,15 +55,10 @@ public class AuthorizationController {
         return "login.html";
     }
 
-    @PostMapping("login")
-    public String performLogin(@ModelAttribute("loginForm") LoginDTO dto) {
-        Optional<User> userOptional = repository.getUserByUsername(dto.getUsername());
-        if(userOptional.isPresent()) {
-            if(!encoder.matches(dto.getPassword(), userOptional.get().getPassword())) {
-                return "login.html";
-            }
-        }
-        return "/";
+    @GetMapping("/logout")
+    public String logout(Authentication authentication) {
+        authentication.setAuthenticated(false);
+        return "redirect:/login";
     }
 
     @GetMapping("register")
@@ -87,7 +80,7 @@ public class AuthorizationController {
         //TODO: check passwords match
         Reader reader = new Reader();
         reader.setUsername(dto.username());
-        reader.setPassword(dto.password());
+        reader.setPassword(encoder.encode(dto.password()));
         var librarian = librarianService.getOneById(dto.librarianId());
 
         ReaderCard card = new ReaderCard();

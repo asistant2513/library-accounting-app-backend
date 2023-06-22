@@ -12,7 +12,8 @@ public record ReaderCardDTO (String id,
                              String expiresOn) {
 
     public static ReaderCardDTO fromReaderCard(final ReaderCard card) {
-        return new ReaderCardDTO(card.getId(), card.getReader().getUserId(),
+        var readerId = card.getReader() == null ? "": card.getReader().getUserId();
+        return new ReaderCardDTO(card.getId(), readerId,
                 card.getIssuedBy().getUserId(), card.getIssuedOn().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                 card.getExpiresOn().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
     }

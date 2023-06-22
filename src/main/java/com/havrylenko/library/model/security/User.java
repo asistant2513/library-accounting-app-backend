@@ -30,6 +30,7 @@ public abstract class User implements UserDetails {
     @Getter
     protected LocalDateTime accountCreated;
     @Getter
+    @Setter
     protected LocalDateTime lastLoginTime;
     @Getter
     protected LocalDateTime lastPasswordChangedDate;
@@ -79,7 +80,8 @@ public abstract class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        Period period = Period.between(this.lastLoginTime.toLocalDate(), LocalDate.now());
+        var loginTime = this.lastLoginTime == null ? LocalDateTime.now() : lastLoginTime;
+        Period period = Period.between(loginTime.toLocalDate(), LocalDate.now());
         return period.getDays() < 365;
     }
 

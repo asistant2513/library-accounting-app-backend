@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Librarian menu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<nav th:insert="/librarian/librarian_navbar.html"></nav>
+  <body>
+  <div class="col-6 text-center mx-auto p-3 bg-custom" style="background-color: #bad1f5;">
+      <h3 class="text-center my-4">Library menu</h3>
+      <hr>
+      <a th:href="@{/library/books}"><button class="btn btn-primary btn-lg my-2 col-10">Books</button></a>
+      <br/>
+      <a th:href="@{/library/books?mostPopular=true}"><button class="btn btn-primary btn-lg my-2 col-10">Most popular books</button></a>
+      <br/>
+      <a th:href="@{/library/readers}"><button class="btn btn-primary btn-lg my-2 col-10">Readers</button></a>
+      <br/>
+      <a th:href="@{/library/readers?defaulters=true}"><button class="btn btn-primary btn-lg my-2 col-10">Library defaulters</button></a>
+      <br/>
+      <a th:href="@{/library/readers?inactive=true}"><button class="btn btn-primary btn-lg my-2 col-10">Long time inactive readers</button></a>
+      <br/>
+      <a th:href="@{/library/reports}"><button class="btn btn-primary btn-lg my-2 col-10">Reports</button></a>
+      <br/>
+      <a th:href="@{/logout}"><button class="btn btn-secondary btn-lg my-2 col-10">Logout</button></a>
+    </div>
+  </body>
+</html>

@@ -1,7 +1,6 @@
 package com.havrylenko.library.controller.ui;
 
 import com.havrylenko.library.model.dto.ReaderDTO;
-import com.havrylenko.library.model.entity.Librarian;
 import com.havrylenko.library.model.entity.Reader;
 import com.havrylenko.library.model.enums.Gender;
 import com.havrylenko.library.service.AddressService;
@@ -68,7 +67,11 @@ public class AdminReadersController {
 
     @PostMapping("/{id}/delete")
     public String deleteLibrarian(@PathVariable String id, Model model) {
+        var reader = readerService.getOneById(id).get();
         try {
+            if(!reader.getBooks().isEmpty()) {
+                throw new RuntimeException("Reader has books on hands");
+            }
             readerService.deleteById(id);
         } catch (Exception e) {
             model.addAttribute("errorMsg", "Cannot delete reader due to: " + e.getCause());
