@@ -10,12 +10,13 @@ public record RegistrationDTO( String username,
                                String paternity,
                                String gender,
                                LocalDate dateOfBirth,
+                               String address,
                                String mobilePhone,
                                String librarianId) {
 
     public static RegistrationDTO getInstance() {
         return new RegistrationDTO("", "", "",
-                "", "", "", "", LocalDate.now(),
+                "", "", "", "", LocalDate.now(),"",
                 "", "");
     }
 }

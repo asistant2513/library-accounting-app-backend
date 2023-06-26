@@ -3,16 +3,15 @@ package com.havrylenko.library.controller.ui;
 import com.havrylenko.library.model.dto.LibrarianSelectDTO;
 import com.havrylenko.library.model.dto.LoginDTO;
 import com.havrylenko.library.model.dto.RegistrationDTO;
+import com.havrylenko.library.model.entity.Address;
 import com.havrylenko.library.model.entity.PersonDetails;
 import com.havrylenko.library.model.entity.Reader;
 import com.havrylenko.library.model.entity.ReaderCard;
 import com.havrylenko.library.model.enums.Gender;
 import com.havrylenko.library.model.security.Role;
 import com.havrylenko.library.repository.UserRepository;
-import com.havrylenko.library.service.LibrarianService;
-import com.havrylenko.library.service.PersonDetailsService;
-import com.havrylenko.library.service.ReaderCardService;
-import com.havrylenko.library.service.ReaderService;
+import com.havrylenko.library.service.*;
+import com.havrylenko.library.util.JsonConverter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -35,18 +34,22 @@ public class AuthorizationController {
     private final PersonDetailsService personDetailsService;
     private final ReaderCardService readerCardService;
 
+    private final AddressService addressService;
+
     public AuthorizationController(UserRepository repository,
                                    BCryptPasswordEncoder encoder,
                                    LibrarianService librarianService,
                                    ReaderService readerService,
                                    PersonDetailsService personDetailsService,
-                                   ReaderCardService readerCardService) {
+                                   ReaderCardService readerCardService,
+                                   AddressService addressService) {
         this.repository = repository;
         this.encoder = encoder;
         this.librarianService = librarianService;
         this.readerService = readerService;
         this.personDetailsService = personDetailsService;
         this.readerCardService = readerCardService;
+        this.addressService = addressService;
     }
 
     @GetMapping("login")
@@ -90,6 +93,9 @@ public class AuthorizationController {
 
         readerCardService.save(card);
 
+        Address address = JsonConverter.convertJsonToAddress(dto.address());
+        address = addressService.save(address);
+
         PersonDetails details = PersonDetails.builder()
                 .name(dto.name())
                 .surname(dto.surname())
@@ -97,6 +103,7 @@ public class AuthorizationController {
                 .gender(Gender.valueOf(dto.gender()))
                 .dateOfBirth(dto.dateOfBirth())
                 .mobilePhone(dto.mobilePhone())
+                .address(address)
                 .build();
 
         personDetailsService.save(details);

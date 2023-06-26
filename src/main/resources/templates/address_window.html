@@ -1,0 +1,101 @@
+<div class="col-4 mx-auto d-flex align-items-center justify-content-center
+     border border-dark z-1 position-absolute top-50 start-50 translate-middle invisible "
+     style="height: auto; background-color: #bad1f5; display: block;"
+     id="address-window">
+    <div>
+        <h2 class="text-center">Address</h2>
+        <hr>
+        <div>
+            <table class="col-12">
+                <tr>
+                    <td>Country:</td>
+                    <td class="d-grid mx-4">
+                        <input type="text" id="country-input" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>City:</td>
+                    <td class="d-grid mx-4">
+                        <input type="text" id="city-input" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>District:</td>
+                    <td class="d-grid mx-4">
+                        <input type="text" id="district-input"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Village:</td>
+                    <td class="d-grid mx-4">
+                        <input type="text" id="village-input" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Street:</td>
+                    <td class="d-grid mx-4">
+                        <input type="text" id="street-input" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Building/Apartment:</td>
+                    <td class="mx-4 d-grid">
+                        <div class="row">
+                            <div style="width: 80px; margin-right:10px;">
+                                <input type="number" id="building-input" min="1" style="width: 80px"/>
+                            </div>
+                            <div style="width: 80px">
+                                <input type="number" id="apartment-input" min="0" style="width: 80px" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Zip-code:</td>
+                    <td class="d-grid mx-4">
+                        <input type="number" id="zipcode-input" min="0" max="99999"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <hr>
+        <div class="justify-content-end row gap-2 pt-4 pb-2">
+            <button class="btn btn-success col-3" onclick="save_button_clicked()">Confirm</button>
+            <button class="btn btn-danger col-3" onclick="cancel_button_clicked()">Cancel</button>
+        </div>
+    </div>
+</div>
+<script>
+    function save_button_clicked() {
+        var country = document.getElementById("country-input").value;
+        var city = document.getElementById("city-input").value;
+        var district = document.getElementById("district-input").value;
+        var village = document.getElementById("village-input").value;
+        var street = document.getElementById("street-input").value;
+        var building = document.getElementById("building-input").value;
+        var apartment = document.getElementById("apartment-input").value;
+        var zipcode = document.getElementById("zipcode-input").value;
+
+        var address = {
+            country: country,
+            city: city,
+            district: district,
+            village: village,
+            street: street,
+            building: building,
+            apartment: apartment,
+            zipcode: parseInt(zipcode)
+        };
+
+        document.getElementById("address-hidden-input").value = JSON.stringify(address);
+        document.getElementById("address-window").classList.add("invisible");
+    }
+
+    function cancel_button_clicked() {
+        document.getElementById("address-window").classList.add("invisible");
+    }
+
+    function open_address_dialog() {
+        document.getElementById("address-window").classList.remove("invisible");
+    }
+</script>
