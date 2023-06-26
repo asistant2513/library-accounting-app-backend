@@ -6,6 +6,7 @@ import com.havrylenko.library.util.JsonConverter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public record ReaderDTO(String id,
                         String username,
@@ -14,7 +15,7 @@ public record ReaderDTO(String id,
                         String surname,
                         String paternity,
                         String gender,
-                        LocalDate dateOfBirth,
+                        String dateOfBirth,
                         String mobilePhone,
                         String address,
                         LocalDateTime accountCreated,
@@ -31,6 +32,7 @@ public record ReaderDTO(String id,
         } else {
             gender = g.name();
         }
+        var dob = details.getDateOfBirth();
         return new ReaderDTO(reader.getUserId(),
                 reader.getUsername(),
                 reader.getReaderCard().getId(),
@@ -38,7 +40,7 @@ public record ReaderDTO(String id,
                 details.getSurname(),
                 details.getPaternity(),
                 gender,
-                details.getDateOfBirth(),
+                dob != null ? dob.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : "",
                 details.getMobilePhone(),
                 details.getAddress() != null ? (convert ? JsonConverter.convertAddressToJsonString(details.getAddress()) : details.getAddress().toString()) : "",
                 reader.getAccountCreated(),
@@ -50,7 +52,7 @@ public record ReaderDTO(String id,
 
     public static ReaderDTO getInstance() {
         return new ReaderDTO("", "", "", "",
-                "", "", "", LocalDate.now(), "","", LocalDateTime.now(),
+                "", "", "", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), "","", LocalDateTime.now(),
                 LocalDateTime.now(), LocalDateTime.now(), false);
     }
 }

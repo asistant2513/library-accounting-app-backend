@@ -11,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @Controller
 @RequestMapping("/admin/readers")
 public class AdminReadersController {
@@ -59,7 +62,7 @@ public class AdminReadersController {
         reader.getPersonDetails().setSurname(dto.surname());
         reader.getPersonDetails().setPaternity(dto.paternity());
         reader.getPersonDetails().setGender(Gender.valueOf(dto.gender()));
-        reader.getPersonDetails().setDateOfBirth(dto.dateOfBirth());
+        reader.getPersonDetails().setDateOfBirth(LocalDate.parse(dto.dateOfBirth(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         reader.getPersonDetails().setMobilePhone(dto.mobilePhone());
         readerService.save(reader);
         return "redirect:/admin/readers/{id}";

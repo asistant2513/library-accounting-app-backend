@@ -15,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -73,7 +75,7 @@ public class AdminLibrariansController {
                 .surname(dto.surname())
                 .paternity(dto.paternity())
                 .gender(Gender.valueOf(dto.gender()))
-                .dateOfBirth(dto.dateOfBirth())
+                .dateOfBirth(LocalDate.parse(dto.dateOfBirth(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .mobilePhone(dto.mobilePhone())
                 .build();
         details = personDetailsService.save(details);
@@ -116,7 +118,7 @@ public class AdminLibrariansController {
         librarian.getPersonDetails().setSurname(dto.surname());
         librarian.getPersonDetails().setPaternity(dto.paternity());
         librarian.getPersonDetails().setGender(Gender.valueOf(dto.gender()));
-        librarian.getPersonDetails().setDateOfBirth(dto.dateOfBirth());
+        librarian.getPersonDetails().setDateOfBirth(LocalDate.parse(dto.dateOfBirth(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         librarian.getPersonDetails().setMobilePhone(dto.mobilePhone());
         librarianService.save(librarian);
         return "redirect:/admin/librarians/{id}";

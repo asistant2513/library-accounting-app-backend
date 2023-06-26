@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping("/profile")
@@ -80,7 +82,7 @@ public class ReaderProfileController {
         details.setSurname(dto.surname());
         details.setPaternity(dto.paternity());
         details.setGender(Gender.valueOf(dto.gender()));
-        details.setDateOfBirth(dto.dateOfBirth());
+        details.setDateOfBirth(LocalDate.parse(dto.dateOfBirth(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         details.setMobilePhone(dto.mobilePhone());
         details.setAddress(address);
 
