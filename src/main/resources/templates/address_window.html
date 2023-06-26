@@ -66,17 +66,31 @@
     </div>
 </div>
 <script>
-    function save_button_clicked() {
-        var country = document.getElementById("country-input").value;
-        var city = document.getElementById("city-input").value;
-        var district = document.getElementById("district-input").value;
-        var village = document.getElementById("village-input").value;
-        var street = document.getElementById("street-input").value;
-        var building = document.getElementById("building-input").value;
-        var apartment = document.getElementById("apartment-input").value;
-        var zipcode = document.getElementById("zipcode-input").value;
 
-        var address = {
+    window.onload = function() {
+        let addressStr = document.getElementById("address-hidden-input").value;
+        address = JSON.parse(addressStr);
+        document.getElementById("country-input").value = address.country === undefined ? "" : address.country;
+        document.getElementById("city-input").value = address.city === undefined ? "" : address.city;
+        document.getElementById("district-input").value = address.district === undefined ? "" : address.district;
+        document.getElementById("village-input").value = address.village === undefined ? "" : address.village;
+        document.getElementById("street-input").value = address.street === undefined ? "" : address.street;
+        document.getElementById("building-input").value = address.building;
+        document.getElementById("apartment-input").value = address.apartment;
+        document.getElementById("zipcode-input").value = address.zipcode;
+    }
+
+    function save_button_clicked() {
+        let country = document.getElementById("country-input").value;
+        let city = document.getElementById("city-input").value;
+        let district = document.getElementById("district-input").value;
+        let village = document.getElementById("village-input").value;
+        let street = document.getElementById("street-input").value;
+        let building = document.getElementById("building-input").value;
+        let apartment = document.getElementById("apartment-input").value;
+        let zipcode = document.getElementById("zipcode-input").value;
+
+        let address = {
             country: country,
             city: city,
             district: district,

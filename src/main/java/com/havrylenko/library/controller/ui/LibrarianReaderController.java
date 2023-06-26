@@ -2,7 +2,6 @@ package com.havrylenko.library.controller.ui;
 
 import com.havrylenko.library.model.dto.ReaderDTO;
 import com.havrylenko.library.model.entity.Reader;
-import com.havrylenko.library.service.BookService;
 import com.havrylenko.library.service.ReaderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +42,7 @@ public class LibrarianReaderController {
                     })
             .toList();
         }
-        var list = readersList.stream().map(ReaderDTO::fromReader);
+        var list = readersList.stream().map(r -> ReaderDTO.fromReader(r, false));
         model.addAttribute("readers", list);
         return "librarian/librarian_readers";
     }
@@ -51,7 +50,7 @@ public class LibrarianReaderController {
     @GetMapping("{id}")
     public String getById(Model model, @PathVariable String id) {
         Reader reader = readerService.getOneById(id).get();
-        model.addAttribute("reader", ReaderDTO.fromReader(reader));
+        model.addAttribute("reader", ReaderDTO.fromReader(reader, false));
         return "librarian/librarian_single_reader";
     }
 }

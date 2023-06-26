@@ -31,7 +31,7 @@ public class AdminReadersController {
 
     @GetMapping
     public String getAll(Model model) {
-        var list = readerService.getAll().stream().map(ReaderDTO::fromReader);
+        var list = readerService.getAll().stream().map( r -> ReaderDTO.fromReader(r, false));
         model.addAttribute("readers", list);
         return "admin/reader/admin_readers";
     }
@@ -39,14 +39,14 @@ public class AdminReadersController {
     @GetMapping("{id}")
     public String getById(Model model, @PathVariable String id) {
         Reader reader = readerService.getOneById(id).get();
-        model.addAttribute("reader", ReaderDTO.fromReader(reader));
+        model.addAttribute("reader", ReaderDTO.fromReader(reader,false));
         return "admin/reader/admin_single_reader";
     }
 
     @GetMapping("{id}/edit")
     public String edit(Model model, @PathVariable String id) {
         Reader reader = readerService.getOneById(id).get();
-        model.addAttribute("reader", ReaderDTO.fromReader(reader));
+        model.addAttribute("reader", ReaderDTO.fromReader(reader, true));
         model.addAttribute("readerId", reader.getUserId());
         return "admin/reader/admin_edit_reader";
     }

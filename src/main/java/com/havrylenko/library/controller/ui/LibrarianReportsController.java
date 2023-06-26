@@ -55,7 +55,7 @@ public class LibrarianReportsController {
                     })
                     .toList();
         }
-        model.addAttribute("readers", readers.stream().map(ReaderDTO::fromReader).toList());
+        model.addAttribute("readers", readers.stream().map(r -> ReaderDTO.fromReader(r, false)).toList());
         return "/librarian/librarian_readers";
     }
 

@@ -38,4 +38,14 @@ public class Address {
                 .append(zipCode != 0 ? zipCode : "");
         return sb.toString();
     }
+
+    public void updateFieldsFrom(final Address other) {
+        this.country = other.country;
+        this.city = other.city;
+        this.district = other.district;
+        this.village = other.village;
+        this.building = other.building;
+        this.apartment = other.apartment;
+        this. zipCode = other.zipCode;;
+    }
 }

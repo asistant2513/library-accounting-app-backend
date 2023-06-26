@@ -2,6 +2,7 @@ package com.havrylenko.library.model.dto;
 
 import com.havrylenko.library.model.entity.Librarian;
 import com.havrylenko.library.model.enums.Gender;
+import com.havrylenko.library.util.JsonConverter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,7 +21,7 @@ public record LibrarianDTO(String id,
                            LocalDateTime lastPasswordChanged,
                            Boolean isLocked) {
 
-    public static LibrarianDTO fromLibrarian(final Librarian librarian) {
+    public static LibrarianDTO fromLibrarian(final Librarian librarian, boolean convert) {
         var details = librarian.getPersonDetails();
         Gender g = details.getGender();
         String gender;
@@ -37,7 +38,7 @@ public record LibrarianDTO(String id,
                 gender,
                 details.getDateOfBirth(),
                 details.getMobilePhone(),
-                details.getAddress() != null ? details.getAddress().toString() : "",
+                details.getAddress() != null ? (convert ? JsonConverter.convertAddressToJsonString(details.getAddress()) : details.getAddress().toString()) : "",
                 librarian.getAccountCreated(),
                 librarian.getLastLoginTime(),
                 librarian.getLastPasswordChangedDate(),

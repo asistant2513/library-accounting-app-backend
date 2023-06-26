@@ -37,7 +37,7 @@ public class AdminLibrariansController {
 
     @GetMapping()
     public String getLibrariansView(Model model) {
-        List<LibrarianDTO> dtos = librarianService.getAll().stream().map(LibrarianDTO::fromLibrarian).toList();
+        List<LibrarianDTO> dtos = librarianService.getAll().stream().map(l -> LibrarianDTO.fromLibrarian(l, false)).toList();
         model.addAttribute("librarians", dtos);
         return "admin/librarian/admin_librarians";
     }
@@ -45,7 +45,7 @@ public class AdminLibrariansController {
     @GetMapping("/{id}")
     public String getOneLibrarianView(Model model, @PathVariable String id) {
         Librarian librarian = librarianService.getOneById(id).get();
-        model.addAttribute("librarian", LibrarianDTO.fromLibrarian(librarian));
+        model.addAttribute("librarian", LibrarianDTO.fromLibrarian(librarian, false));
         return "admin/librarian/admin_single_librarian";
     }
 
@@ -103,7 +103,7 @@ public class AdminLibrariansController {
     @GetMapping("/{id}/edit")
     public String editLibrarian(@PathVariable String id, Model model) {
         Librarian librarian = librarianService.getOneById(id).get();
-        model.addAttribute("librarianDto", LibrarianDTO.fromLibrarian(librarian));
+        model.addAttribute("librarianDto", LibrarianDTO.fromLibrarian(librarian, true));
         model.addAttribute("librarianId", librarian.getUserId());
         return "admin/librarian/admin_edit_librarian";
     }
