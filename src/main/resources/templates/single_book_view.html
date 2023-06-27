@@ -47,6 +47,14 @@
           <td>Description:</td>
           <td><p th:text="${book.description}" class="text-break"></p></td>
         </tr>
+        <tr th:if="${#authentication.getAuthorities().get(0).name() == 'LIBRARIAN'}">
+          <td>Reader:</td>
+          <td><a th:href="@{/library/readers/{id}(id=${book.readerId})}" th:text="${book.readerId}"></a></td>
+        </tr>
+        <tr>
+          <td>Reserved till:</td>
+          <td th:text="${book.reservedTill}"></td>
+        </tr>
       </table>
     </div>
 

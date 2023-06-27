@@ -53,6 +53,6 @@ public record ReaderDTO(String id,
     public static ReaderDTO getInstance() {
         return new ReaderDTO("", "", "", "",
                 "", "", "", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), "","", LocalDateTime.now(),
-                LocalDateTime.now(), LocalDateTime.now(), false);
+                LocalDateTime.now(), LocalDateTime.now(), true);
     }
 }

@@ -7,7 +7,6 @@ import com.havrylenko.library.repository.ReviewRepository;
 import com.havrylenko.library.service.BookService;
 import com.havrylenko.library.service.ReaderService;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 
 @Controller
@@ -31,8 +31,10 @@ public class LibrarianBookController {
     }
 
     @GetMapping
-    public String getAll(Model model, @RequestParam(required = false) boolean mostPopular,
-                         @RequestParam(required = false) String readerId, Authentication auth) {
+    public String getAll(Model model,
+                         @RequestParam(required = false) boolean mostPopular,
+                         @RequestParam(required = false) String readerId,
+                         @RequestParam(required = false) boolean expired) {
         var booksList = bookService.getAll();
         if(Strings.isNotBlank(readerId)) {
             booksList = booksList.stream()
@@ -46,6 +48,11 @@ public class LibrarianBookController {
             booksList = booksList.stream()
                     .sorted(Comparator.comparingInt(Book::getTimesBooked))
                     .limit(20)
+                    .toList();
+        }
+        if (expired) {
+            booksList = booksList.stream()
+                    .filter(b -> b.getReservedTill() == null ? false : b.getReservedTill().isAfter(LocalDate.now()))
                     .toList();
         }
         var books = booksList.stream().map(b -> BookDTO.fromBook(b, true)).toList();

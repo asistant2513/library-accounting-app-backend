@@ -25,6 +25,7 @@
         <th>Reader card ID</th>
         <th>Books</th>
         <th>Account created</th>
+        <th>Approval status</th>
         <th>Last login</th>
         <th>Password changed on</th>
       </tr>
@@ -47,6 +48,11 @@
           <a th:href="@{/library/books?readerId={id}(id=${reader.id})}"> View books</a>
         </td>
         <td th:text="${reader.accountCreated}"></td>
+        <td>
+          <form th:action="@{/library/readers/{id}/approve(id=${reader.id})}" method="post">
+            <input type="submit" th:value="${reader.isLocked} ? 'Not Approved' : 'Approved'" class="btn btn-secondary"/>
+          </form>
+        </td>
         <td th:text="${reader.lastLogin}"></td>
         <td th:text="${reader.lastPasswordChanged}"></td>
       </tr>

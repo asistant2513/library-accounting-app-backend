@@ -33,7 +33,6 @@ public class AuthorizationController {
     private final ReaderService readerService;
     private final PersonDetailsService personDetailsService;
     private final ReaderCardService readerCardService;
-
     private final AddressService addressService;
 
     public AuthorizationController(UserRepository repository,
@@ -111,6 +110,7 @@ public class AuthorizationController {
         reader.setReaderCard(card);
         reader.setPersonDetails(details);
         reader.setUserRole(Role.READER);
+        reader.setLocked(true);
 
         readerService.save(reader);
         return "redirect:login";

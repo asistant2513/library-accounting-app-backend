@@ -5,11 +5,9 @@ import com.havrylenko.library.model.entity.Reader;
 import com.havrylenko.library.service.ReaderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -25,7 +23,9 @@ public class LibrarianReaderController {
     @GetMapping
     public String getAll(Model model,
                          @RequestParam(required = false) boolean defaulters,
-                         @RequestParam(required = false) boolean inactive) {
+                         @RequestParam(required = false) boolean inactive,
+                         @RequestParam(required = false) boolean forApproval,
+                         Principal principal) {
         var readersList = readerService.getAll();
         if (defaulters) {
             readersList = readersList.stream().filter(
@@ -42,6 +42,13 @@ public class LibrarianReaderController {
                     })
             .toList();
         }
+        if (forApproval) {
+            readersList = readersList.stream().filter(
+                            r -> {
+                                return r.getReaderCard().getIssuedBy().getUsername().equals(principal.getName());
+                            })
+                    .toList();
+        }
         var list = readersList.stream().map(r -> ReaderDTO.fromReader(r, false));
         model.addAttribute("readers", list);
         return "librarian/librarian_readers";
@@ -52,5 +59,13 @@ public class LibrarianReaderController {
         Reader reader = readerService.getOneById(id).get();
         model.addAttribute("reader", ReaderDTO.fromReader(reader, false));
         return "librarian/librarian_single_reader";
+    }
+
+    @PostMapping("{id}/approve")
+    public String approveReader(@PathVariable String id) {
+        Reader reader = readerService.getOneById(id).get();
+        reader.setLocked(false);
+        readerService.save(reader);
+        return "redirect:/library/readers";
     }
 }

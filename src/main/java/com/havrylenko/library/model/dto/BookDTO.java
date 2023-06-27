@@ -2,6 +2,7 @@ package com.havrylenko.library.model.dto;
 
 import com.havrylenko.library.model.entity.Book;
 
+import java.time.LocalDate;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
 
@@ -19,11 +20,12 @@ public record BookDTO (String id,
                        String authorId,
                        String publisher,
                        String publisherId,
+                       LocalDate reservedTill,
                        String readerId) {
 
     public static BookDTO getInstance() {
         return new BookDTO("","", Year.now().getValue(), 0, "", "", false,
-                0,"", 0, "", "", "", "", "");
+                0,"", 0, "", "", "", "", null, "");
     }
 
     public static BookDTO fromBook(final Book book) {
@@ -32,6 +34,7 @@ public record BookDTO (String id,
                 book.getPages(), desc, book.getDateRegistered().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                 book.isInArchive(), book.getTimesBooked(),book.getGenre().getName(), book.getGenre().getId(),
                 book.getAuthor().toString(), book.getAuthor().getId(), book.getPublisher().toString(), book.getPublisher().getId(),
+                book.getReservedTill(),
                 book.getReader() == null ? "" : book.getReader().getUserId());
     }
 
@@ -44,6 +47,6 @@ public record BookDTO (String id,
                 book.getPages(), desc, book.getDateRegistered().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                 book.isInArchive(), book.getTimesBooked(),book.getGenre().getName(), book.getGenre().getId(),
                 book.getAuthor().toString(), book.getAuthor().getId(), book.getPublisher().toString(), book.getPublisher().getId(),
-                book.getReader() == null ? "" : book.getReader().getUserId());
+                book.getReservedTill(), book.getReader() == null ? "" : book.getReader().getUserId());
     }
 }

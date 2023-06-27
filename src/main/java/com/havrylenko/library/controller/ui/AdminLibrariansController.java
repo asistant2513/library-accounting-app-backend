@@ -10,6 +10,7 @@ import com.havrylenko.library.model.security.Role;
 import com.havrylenko.library.service.AddressService;
 import com.havrylenko.library.service.LibrarianService;
 import com.havrylenko.library.service.PersonDetailsService;
+import com.havrylenko.library.util.JsonConverter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,6 +69,7 @@ public class AdminLibrariansController {
         librarian.setUserRole(Role.LIBRARIAN);
 
         Address address = new Address();
+        address.updateFieldsFrom(JsonConverter.convertJsonToAddress(dto.address()));
         address = addressService.save(address);
 
         PersonDetails details = PersonDetails.builder()
@@ -77,6 +79,7 @@ public class AdminLibrariansController {
                 .gender(Gender.valueOf(dto.gender()))
                 .dateOfBirth(LocalDate.parse(dto.dateOfBirth(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .mobilePhone(dto.mobilePhone())
+                .address(address)
                 .build();
         details = personDetailsService.save(details);
 
@@ -120,6 +123,15 @@ public class AdminLibrariansController {
         librarian.getPersonDetails().setGender(Gender.valueOf(dto.gender()));
         librarian.getPersonDetails().setDateOfBirth(LocalDate.parse(dto.dateOfBirth(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         librarian.getPersonDetails().setMobilePhone(dto.mobilePhone());
+        Address address = JsonConverter.convertJsonToAddress(dto.address());
+        if (librarian.getPersonDetails().getAddress() == null) {
+            address = addressService.save(address);
+            librarian.getPersonDetails().setAddress(address);
+        } else {
+            librarian.getPersonDetails().getAddress().updateFieldsFrom(address);
+        }
+        addressService.save(librarian.getPersonDetails().getAddress());
+        personDetailsService.save(librarian.getPersonDetails());
         librarianService.save(librarian);
         return "redirect:/admin/librarians/{id}";
     }
