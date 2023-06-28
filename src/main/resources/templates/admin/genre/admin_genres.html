@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Genres</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+<nav th:insert="/admin/admin_navbar.html"></nav>
+<body>
+<div>
+  <h2 class="text-center">Genres</h2>
+</div>
+<div class="col-3">
+  <table th:object="${genres}" class="table table-bordered" id="genre-table">
+    <tr class="table-secondary">
+      <th>ID</th>
+      <th>Genre</th>
+      <th></th>
+    </tr>
+    <tr th:each="genre : ${genres}">
+      <td th:text="${genre.id}"></td>
+      <td th:text="${genre.name}"></td>
+      <td>
+        <form th:action="@{/admin/genres/{id}/delete(id=${genre.id})}" method="post">
+          <input type="submit" value="Delete" class="btn btn-danger"/>
+        </form>
+      </td>
+    </tr>
+    <tr>
+      <form th:action="@{/admin/genres/add}" th:object="${newGenre}" method="post">
+        <td>ID</td>
+        <td>
+          <input type="text" th:field="*{name}">
+        </td>
+        <td>
+          <input type="submit" value="Save" class="btn btn-success"/>
+        </td>
+      </form>
+    </tr>
+  </table>
+</div>
+</body>
+</html>
