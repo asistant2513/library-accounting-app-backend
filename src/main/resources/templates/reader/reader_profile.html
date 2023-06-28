@@ -104,6 +104,11 @@
                     <input type="submit" value="Extend reservation" class="btn btn-primary col-12"/>
                   </form>
                 </div>
+                <div class="d-grid col-3 m-2">
+                  <form th:action="@{/books/{id}/return(id=${book.id})}" method="post">
+                    <input type="submit" value="Return book" class="btn btn-primary col-12"/>
+                  </form>
+                </div>
               </div>
 
             </div>

@@ -9,10 +9,7 @@ import com.havrylenko.library.service.ReaderService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -71,5 +68,24 @@ public class LibrarianBookController {
         model.addAttribute("reviewDto", new ReviewDTO("", (short) 0));
         model.addAttribute("isReader", false);
         return "single_book_view";
+    }
+
+    @PostMapping("{id}/approveReservation")
+    public String approveReservation(@PathVariable String id) {
+        Book b = bookService.getOneById(id).get();
+        b.setReserveApproved(true);
+        bookService.save(b);
+        return "redirect:/library/books";
+    }
+
+    @PostMapping("{id}/confirmReturn")
+    public String approveReservationExtension(@PathVariable String id) {
+        Book b = bookService.getOneById(id).get();
+        b.setUnderReturnApproval(false);
+        b.setReturnConfirmed(true);
+        b.getReader().getBooks().remove(b);
+        b.setReader(null);
+        bookService.save(b);
+        return "redirect:/library/books";
     }
 }

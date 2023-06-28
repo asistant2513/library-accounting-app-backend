@@ -64,6 +64,29 @@
           <input type="submit" value="Reserve book" th:disabled="${book.readerId != ''}" class="btn btn-primary col-12"/>
         </form>
       </div>
+      <div class="col-4">
+        <form th:action="@{/books/{id}/extendReservation(id=${book.id})}" method="post">
+          <input type="submit" value="Extend reservation" class="btn btn-primary col-12"/>
+        </form>
+      </div>
+      <div class="col-4">
+        <form th:action="@{/books/{id}/return(id=${book.id})}" method="post">
+          <input type="submit" value="Return book" class="btn btn-primary col-12"/>
+        </form>
+      </div>
+    </div>
+
+    <div th:unless="${isReader}" class="row justify-content-end">
+      <div class="col-4" th:unless="${isReader}">
+        <form th:action="@{/library/books/{id}/confirmReturn(id=${book.id})}" method="post">
+          <input type="submit" value="Approve return" th:disabled="${!book.underReturnApproval}" class="btn btn-primary"/>
+        </form>
+      </div>
+      <div class="col-4" th:unless="${isReader}">
+        <form th:action="@{/library/books/{id}/approveReservation(id=${book.id})}" method="post">
+          <input type="submit" value="Approve reservation" th:disabled="${(book.readerId == null || book.readerId == '') || book.reservationApproved}" class="btn btn-primary"/>
+        </form>
+      </div>
     </div>
 
     <hr>

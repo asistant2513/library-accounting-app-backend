@@ -20,8 +20,8 @@ public class LibrarianReaderCardsController {
     @GetMapping("{id}")
     public String getById(@PathVariable String id,
                           Model model) {
-        var cards = ReaderCardDTO.fromReaderCard(readerCardService.getOneById(id).get());
-        model.addAttribute("cards", cards);
+        var card = ReaderCardDTO.fromReaderCard(readerCardService.getOneById(id).get());
+        model.addAttribute("card", card);
         return "librarian/librarian_cards";
     }
 }

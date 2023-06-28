@@ -76,8 +76,20 @@ public class ReaderBooksController {
         book.setReader(reader);
         book.setTimesBooked(book.getTimesBooked() + 1);
         book.setReservedTill(LocalDate.now().plus(30, ChronoUnit.DAYS));
+        book.setReserveApproved(false);
         reader.getBooks().add(book);
 
+        bookService.save(book);
+        return "redirect:/books";
+    }
+
+    @PostMapping("/{id}/return")
+    public String returnBack(@PathVariable String id,
+                          Principal principal) {
+        var book = bookService.getOneById(id).get();
+        var reader = readerService.getOneByUsername(principal.getName()).get();
+        book.setReturnConfirmed(false);
+        book.setUnderReturnApproval(true);
         bookService.save(book);
         return "redirect:/books";
     }

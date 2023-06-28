@@ -7,27 +7,29 @@
 
 </head>
 <nav th:insert="/librarian/librarian_navbar.html"></nav>
-<body>
-<div>
-  <h2 class="text-center">Reader cards</h2>
-</div>
-<div>
-  <table th:object="${cards}" class="table table-bordered">
-    <tr class="table-secondary">
-      <th>ID</th>
-      <th>Reader ID</th>
-      <th>Issued by</th>
-      <th>Issued on</th>
-      <th>Expires on</th>
-    </tr>
-    <tr th:each="card : ${cards}">
-      <td><a th:href="@{/library/cards/{id}(id=${card.id})}" th:text="${card.id}"></a></td>
-      <td><a th:href="@{/library/readers/{id}(id=${card.readerId})}" th:text="${card.readerId}"></a></td>
-      <td th:text="${card.librarianId}"></td>
-      <td th:text="${card.issuedOn}"></td>
-      <td th:text="${card.expiresOn}"></td>
-    </tr>
-  </table>
+<body th:object="${card}">
+<div class="col-5 mx-auto p-3 bg-custom" style="background-color: #bad1f5;">
+  <h2 class="text-center">Reader card details</h2>
+  <div>
+    <table class="col-12 table">
+      <tr>
+        <td>Reader ID:</td>
+        <td><a th:href="@{/library/readers/{id}(id=${card.readerId})}" th:text="${card.readerId}"></a></td>
+      </tr>
+      <tr>
+        <td>Issued By:</td>
+        <td th:text="${card.librarianId}"></td>
+      </tr>
+      <tr>
+        <td>Issued On:</td>
+        <td th:text="${card.issuedOn}"></td>
+      </tr>
+      <tr>
+        <td>Expires On:</td>
+        <td th:text="${card.expiresOn}"></td>
+      </tr>
+    </table>
+  </div>
 </div>
 </body>
 </html>

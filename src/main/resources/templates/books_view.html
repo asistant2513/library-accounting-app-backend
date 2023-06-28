@@ -28,6 +28,7 @@
                 <th>Publishing year:</th>
                 <th>Publisher:</th>
                 <th>Times booked:</th>
+                <th th:if="${#authentication.getAuthorities().get(0).name() == 'LIBRARIAN'}">Reader ID:</th>
               </tr>
               <tr>
                 <td th:text="${book.genre}"></td>
@@ -35,6 +36,9 @@
                 <td th:text="${book.year}"></td>
                 <td th:text="${book.publisher}"></td>
                 <td th:text="${book.timesBooked}"></td>
+                <td th:if="${#authentication.getAuthorities().get(0).name() == 'LIBRARIAN'}">
+                  <a th:href="@{/library/readers/{id}(id=${book.readerId})}" th:text="${book.readerId}"></a>
+                </td>
               </tr>
             </table>
           </div>
@@ -43,7 +47,7 @@
             <p th:text="${book.description}"></p>
           </div>
           <div class="row justify-content-end">
-            <div class="d-grid gap-2 col-2 m-2" >
+            <div class="col-2" >
               <a th:href="@{/books/{id}(id=${book.id})}" th:if="${isReader}">
                 <button class="btn btn-light">View details</button>
               </a>
@@ -51,9 +55,19 @@
                 <button class="btn btn-light">View details</button>
               </a>
             </div>
-            <div class="d-grid gap-2 col-2 m-2">
-              <form th:action="@{/books/{id}/reserve(id=${book.id})}" method="post" th:if="${isReader}">
+            <div class="col-2" th:if="${isReader}">
+              <form th:action="@{/books/{id}/reserve(id=${book.id})}" method="post">
                 <input type="submit" value="Reserve book" th:disabled="${book.readerId != ''}" class="btn btn-primary"/>
+              </form>
+            </div>
+            <div class="col-2" th:unless="${isReader}">
+              <form th:action="@{/library/books/{id}/confirmReturn(id=${book.id})}" method="post">
+                <input type="submit" value="Approve return" th:disabled="${!book.underReturnApproval}" class="btn btn-primary"/>
+              </form>
+            </div>
+            <div class="col-2" th:unless="${isReader}">
+              <form th:action="@{/library/books/{id}/approveReservation(id=${book.id})}" method="post">
+                <input type="submit" value="Approve reservation" th:disabled="${(book.readerId == null || book.readerId == '') || book.reservationApproved}" class="btn btn-primary"/>
               </form>
             </div>
           </div>

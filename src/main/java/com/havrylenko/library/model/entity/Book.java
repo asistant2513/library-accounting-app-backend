@@ -1,5 +1,6 @@
 package com.havrylenko.library.model.entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Type;
@@ -28,6 +29,10 @@ public class Book {
     private boolean isInArchive;
     private int timesBooked;
     private LocalDate reservedTill;
+
+    private boolean underReturnApproval = false;
+    private boolean returnConfirmed = false;
+    private boolean reserveApproved = false;
 
     @ManyToOne
     @JoinColumn(name="genreId", nullable = false)

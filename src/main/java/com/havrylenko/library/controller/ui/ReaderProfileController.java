@@ -3,6 +3,7 @@ package com.havrylenko.library.controller.ui;
 import com.havrylenko.library.model.dto.BookDTO;
 import com.havrylenko.library.model.dto.ReaderDTO;
 import com.havrylenko.library.model.entity.Address;
+import com.havrylenko.library.model.entity.Book;
 import com.havrylenko.library.model.entity.PersonDetails;
 import com.havrylenko.library.model.enums.Gender;
 import com.havrylenko.library.service.AddressService;
@@ -45,7 +46,10 @@ public class ReaderProfileController {
     public String get(Model model,
                       Principal principal) {
         var reader = ReaderDTO.fromReader(readerService.getOneByUsername(principal.getName()).get(), false);
-        var books = bookService.getBooksByReaderId(reader.id()).stream().map(BookDTO::fromBook).toList();
+        var books = bookService.getBooksByReaderId(reader.id()).stream()
+                .filter(Book::isReserveApproved)
+                .map(BookDTO::fromBook)
+                .toList();
 
         model.addAttribute("reader", reader);
         model.addAttribute("books", books);

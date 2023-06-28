@@ -21,11 +21,14 @@ public record BookDTO (String id,
                        String publisher,
                        String publisherId,
                        LocalDate reservedTill,
-                       String readerId) {
+                       String readerId,
+                       boolean reservationApproved,
+                       boolean returnApproved,
+                       boolean underReturnApproval) {
 
     public static BookDTO getInstance() {
         return new BookDTO("","", Year.now().getValue(), 0, "", "", false,
-                0,"", 0, "", "", "", "", null, "");
+                0,"", 0, "", "", "", "", null, "", false, false, false);
     }
 
     public static BookDTO fromBook(final Book book) {
@@ -35,7 +38,8 @@ public record BookDTO (String id,
                 book.isInArchive(), book.getTimesBooked(),book.getGenre().getName(), book.getGenre().getId(),
                 book.getAuthor().toString(), book.getAuthor().getId(), book.getPublisher().toString(), book.getPublisher().getId(),
                 book.getReservedTill(),
-                book.getReader() == null ? "" : book.getReader().getUserId());
+                book.getReader() == null ? "" : book.getReader().getUserId(),
+                book.isReserveApproved(), book.isReturnConfirmed(), book.isUnderReturnApproval());
     }
 
     public static BookDTO fromBook(final Book book, boolean fullDescription) {
@@ -47,6 +51,7 @@ public record BookDTO (String id,
                 book.getPages(), desc, book.getDateRegistered().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                 book.isInArchive(), book.getTimesBooked(),book.getGenre().getName(), book.getGenre().getId(),
                 book.getAuthor().toString(), book.getAuthor().getId(), book.getPublisher().toString(), book.getPublisher().getId(),
-                book.getReservedTill(), book.getReader() == null ? "" : book.getReader().getUserId());
+                book.getReservedTill(), book.getReader() == null ? "" : book.getReader().getUserId(),
+                book.isReserveApproved(), book.isReturnConfirmed(), book.isUnderReturnApproval());
     }
 }
